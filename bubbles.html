@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/vendor/bootstrap/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="assets/vendor/select2/select2.min.css" type="text/css" rel="stylesheet">
+    <link href="assets/vendor/datatables/datatables.min.css" type="text/css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome/css/all.css" type="text/css" rel="stylesheet">
+    <link href="assets/css/custom.css" type="text/css" rel="stylesheet">
+    <title>Crypto Squares</title>
+</head>
+<body class="bg-dark">
+    <header>
+        <nav class="navbar navbar-expand-xl navbar-dark">
+            <div class="container-fluid">
+            <a class="navbar-brand" href="javascript:void(0)">Crypto Squares</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-2">
+                      <select class="form-select cryptocurrency" id="cryptocurrency">
+                            <option selected value="search">Search Cryptocurrency</option>
+                            <option value="bitcoin">Bitcoin</option>
+                            <option value="ethereum">Ethereum</option>
+                            <option value="tether">Tether</option>
+                            <option value="bnb">BNB</option>
+                            <option value="solana">Solana</option>
+                            <option value="usdc">USDC</option>
+                            <option value="xrp">XRP</option>
+                            <option value="dogecoin">Dogecoin</option>
+                            <option value="toincoin">Toincoin</option>
+                            <option value="tron">TRON</option>
+                        </select>
+                    </li>
+                    <li class="nav-item me-2">
+                      <select class="form-select">
+                            <option disabled>Pages</option>
+                            <option selected value="1-100">1 - 100</option>
+                            <option value="101-200">101 - 200</option>
+                            <option value="201-300">201 - 300</option>
+                            <option value="301-400">301 - 400</option>
+                            <option value="401-500">401 - 500</option>
+                            <option value="501-600">501 - 600</option>
+                            <option value="601-700">601 - 700</option>
+                            <option value="701-800">701 - 800</option>
+                            <option value="801-900">801 - 900</option>
+                            <option value="901-1000">901 - 1000</option>
+                            <option disabled>List</option>
+                            <option value="favorites">Favorites</option>
+                            <option value="watchlist">Watchlist 1</option>
+                            <option value="blocklist">Blocklist</option>
+                            <option disabled>Exchanges</option>
+                            <option value="binance">Binance</option>
+                            <option value="mexc">MEXC</option>
+                            <option value="bybit">Bybit</option>
+                            <option value="kucoin">Kucoin</option>
+                            <option value="gate">Gate.io</option>
+                            <option value="okx">OKX</option>
+                            <option value="coinbase">Coinbase</option>
+                        </select>
+                    </li>
+                    <li class="nav-item me-2">
+                        <select class="form-select">
+                            <option disabled>Fiat</option>
+                            <option selected value="usd">$ USD</option>
+                            <option value="eur">€ EUR</option>
+                            <option value="rub">₽ RUB</option>
+                            <option value="brl">R$ BRL</option>
+                            <option value="gbp">£ GBP</option>
+                            <option value="inr">₹ INR</option>
+                            <option value="aud">$ AUD</option>
+                            <option value="cad">$ CAD</option>
+                            <option value="pln">Zł PLN</option>
+                            <option value="try">₺ TRY</option>
+                            <option disabled>Crypto</option>
+                            <option value="btc">₿ BTC</option>
+                            <option value="eth">Ξ ETH</option>
+                        </select>
+                    </li>
+                    <li class="nav-item settings">
+                        <a class="nav-link text-center" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-solid fa-gear"></i></a>
+                    </li>
+                  </ul>
+            </div>
+        </div>
+        </nav>
+    </header>
+    
+    <section class="filter">
+        <div class="container-fluid mt-3">
+            <ul class="nav nav-pills justify-content-center" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="pill" href="#hour">Hour</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#day">Day</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#week">Week</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#month">Month</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#year">Year</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="pill" href="#market">Market Cap & Day</a>
+                </li>
+            </ul>
+            
+            <div class="tab-content mt-3">
+                <div id="hour" class="container-fluid tab-pane active"><br>
+                    <div class="chart-container">
+                        <svg id="chart" class="chart"></svg>
+                    </div>
+                </div>
+                <div id="day" class="container-fluid tab-pane fade"><br>
+                    <h3>Menu 1</h3>
+                </div>
+                <div id="week" class="container-fluid tab-pane fade"><br>
+                    <h3>Menu 2</h3>
+                </div>
+                <div id="month" class="container-fluid tab-pane fade"><br>
+                    <h3>Menu 2</h3>
+                </div>
+                <div id="year" class="container-fluid tab-pane fade"><br>
+                    <h3>Menu 2</h3>
+                </div>
+                <div id="market" class="container tab-pane fade"><br>
+                    <h3>Menu 2</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="mt-3">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Market Cap</th>
+                                    <th>24h Volume</th>
+                                    <th>Hour</th>
+                                    <th>Day</th>
+                                    <th>Week</th>
+                                    <th>Month</th>
+                                    <th>Year</th>
+                                    <th colspan="4" class="text-center">Links</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Bitcon</td>
+                                    <td>$63,813</td>
+                                    <td>$1.26T</td>
+                                    <td>$28.77B</td>
+                                    <td>-0.14%</td>
+                                    <td>+0.43%</td>
+                                    <td>+6.5%</td>
+                                    <td>-0.19%</td>
+                                    <td>+143%</td>
+                                    <td><a target="_blank" rel="noopener" href="https://coinmarketcap.com/currencies/bitcoin" title="View Bitcoin on CoinMarketCap" class="icon-button"><svg viewBox="-7 -7 55 55"><rect x="-7" y="-7" width="64" height="64" fill="#3861fb" rx="12"></rect><path d="m35.124 24.5c-0.715 0.452-1.557 0.508-2.197 0.147-0.813-0.459-1.26-1.534-1.26-3.029v-4.473c0-2.16-0.854-3.697-2.282-4.112-2.42-0.705-4.24 2.256-4.924 3.368l-4.268 6.92v-8.458c-0.048-1.946-0.68-3.11-1.88-3.461-0.794-0.232-1.982-0.139-3.136 1.627l-9.562 15.354c-1.2801-2.4302-1.9475-5.1363-1.944-7.883 0-9.249 7.412-16.773 16.522-16.773s16.521 7.524 16.521 16.773c0 0.016 4e-3 0.03 5e-3 0.045 0 0.016-3e-3 0.03-2e-3 0.046 0.086 1.791-0.494 3.216-1.593 3.91zm5.261-3.999v-0.047l-1e-3 -0.046c-0.051-11.264-9.088-20.408-20.192-20.408-11.133 0-20.192 9.196-20.192 20.5 0 11.303 9.059 20.5 20.193 20.5 5.109 0 9.985-1.942 13.728-5.467 0.744-0.7 0.788-1.879 0.098-2.633-0.68394-0.7542-1.854-0.79931-2.594-0.1-3.0339 2.873-7.0536 4.4738-11.232 4.473-4.878 0-9.267-2.159-12.294-5.583l8.623-13.846v6.383c0 3.066 1.189 4.057 2.186 4.347 0.998 0.29 2.523 0.092 4.124-2.508l4.743-7.689c0.152-0.248 0.292-0.462 0.42-0.647v3.888c0 2.866 1.148 5.158 3.149 6.287 1.804 1.018 4.072 0.926 5.92-0.24 2.24-1.415 3.447-4.022 3.321-7.164z" fill="#fff"></path></svg></a></td>
+                                    <td><a target="_blank" rel="noopener" href="https://www.coingecko.com/coins/usd-coin" title="View USDC on CoinGecko" class="icon-button"><svg viewBox="0 0 96 96"><path d="M95.3201 47.7848C95.437 74.2931 74.1955 95.8818 47.8757 95.9995C21.5525 96.1172 0.120677 74.7236 0.00047986 48.2152C-0.116378 21.7035 21.1251 0.118179 47.445 0.000483373C73.7681 -0.117212 95.2 21.2731 95.3168 47.7848H95.3201Z" fill="#8DC63F"></path><path d="M91.7276 47.7979C91.8378 72.3122 72.1955 92.2733 47.859 92.3843C23.519 92.4953 3.69988 72.7124 3.58969 48.1981C3.47951 23.6839 23.1217 3.72273 47.4616 3.61177C71.7982 3.50416 91.6174 23.2837 91.7276 47.7979Z" fill="#F9E988"></path><path d="M70.0087 32.1144C66.8101 31.183 63.498 29.8581 60.1392 28.5231C59.9455 27.6756 59.201 26.6198 57.6918 25.3251C55.4982 23.4083 51.3781 23.4588 47.819 24.3062C43.8892 23.3747 40.0062 23.0418 36.2801 23.943C5.81008 32.4003 23.0851 53.0239 11.8967 73.7618C13.4893 77.1615 30.6475 97.0083 55.4749 91.6817C55.4749 91.6817 46.9843 71.1321 66.1457 61.2659C81.6879 53.266 92.9163 38.4095 70.0054 32.1111L70.0087 32.1144Z" fill="#8BC53F"></path><path d="M49.9291 37.0607C49.9291 41.8022 46.1128 45.6424 41.4085 45.6424C36.7041 45.6424 32.8878 41.8022 32.8878 37.0607C32.8878 32.3193 36.7041 28.4824 41.4085 28.4824C46.1128 28.4824 49.9291 32.3227 49.9291 37.0607Z" fill="white"></path><path d="M47.4049 37.1416C47.4049 40.474 44.7205 43.1776 41.4117 43.1776C38.103 43.1776 35.4186 40.4774 35.4186 37.1416C35.4186 33.8057 38.103 31.1055 41.4117 31.1055C44.7205 31.1055 47.4049 33.8091 47.4049 37.1416Z" fill="#58595B"></path><path d="M80.6726 49.4091C73.7713 54.3086 65.9151 58.0244 54.7802 58.0244C49.5683 58.0244 48.5099 52.4457 45.0643 55.1796C43.2847 56.5919 37.0144 59.7495 32.0362 59.5108C27.0146 59.2687 18.9982 56.3296 16.7445 45.6328C15.853 56.3296 15.3989 64.2119 11.4091 73.2441C19.3521 86.0527 38.2865 95.9324 55.4747 91.6853C53.6283 78.6951 64.9001 65.9739 71.2505 59.4637C73.6545 56.9988 78.262 52.9736 80.6726 49.4091Z" fill="#8BC53F"></path><path d="M80.4024 49.7321C78.2588 51.6993 75.708 53.1587 73.1104 54.4432C70.4861 55.6908 67.7516 56.7063 64.927 57.4428C62.1124 58.1759 59.1709 58.7273 56.1927 58.4583C53.2679 58.1994 50.1761 57.1637 48.2029 54.9207L48.2964 54.8131C50.7304 56.3936 53.5049 56.9485 56.2795 57.0292C59.054 57.1032 61.882 56.8947 64.6699 56.3264C67.4511 55.748 70.1823 54.8838 72.8233 53.7875C75.4576 52.6913 78.0619 51.4235 80.3089 49.6211L80.399 49.7287L80.4024 49.7321Z" fill="#58595B"></path></svg></a></td>
+                                    <td><a target="_blank" rel="noopener" href="https://www.tradingview.com/chart/?symbol=BINANCE:USDCUSDT" title="View USDC on TradingView" class="icon-button"><svg viewBox="0 0 180 180"><rect width="180" height="180" fill="black"></rect><path d="M115.055 72.5C115.055 79.8638 109.086 85.8333 101.722 85.8333C94.3583 85.8333 88.3888 79.8638 88.3888 72.5C88.3888 65.1362 94.3583 59.1667 101.722 59.1667C109.086 59.1667 115.055 65.1362 115.055 72.5ZM81.9999 59.7778H28.6667L28.6665 86.4444H55.3332V125.556H81.9999V59.7778ZM128.755 59.7778H159.333L131.778 125.556H101.111L128.755 59.7778Z" fill="white"></path></svg></a></td>
+                                    <td>
+                                        <button class="solid-button" title="Trade Bitcoin on Binance, MEXC, Bybit, Kucoin, Gate.io, Bitget, BitMart, BingX, OKX, Coinbase">
+                                        	<svg viewBox="0 0 2500 2500" style="margin-right: -6px;">
+                                        		<path fill="#fdd430" d="M764.48,1050.52,1250,565l485.75,485.73,282.5-282.5L1250,0,482,768l282.49,282.5M0,1250,282.51,967.45,565,1249.94,282.49,1532.45Zm764.48,199.51L1250,1935l485.74-485.72,282.65,282.35-.14.15L1250,2500,482,1732l-.4-.4,282.91-282.12M1935,1250.12l282.51-282.51L2500,1250.1,2217.5,1532.61Z"></path>
+                                        		<path fill="#fdd430" d="M1536.52,1249.85h.12L1250,963.19,1038.13,1175h0l-24.34,24.35-50.2,50.21-.4.39.4.41L1250,1536.81l286.66-286.66.14-.16-.26-.14"></path>
+                                        	</svg>
+                                        	<svg viewBox="0 0 2500 2500" style="margin-right: -6px;">
+                                        		<path d="M2459.7,1566.6l-540.6-937.7c-118.5-195.5-407.5-197.5-521.9,8.3l-567.6,975.2 c-106,178.8,25,403.3,237.1,403.3H2204C2418.1,2015.7,2578.2,1784.9,2459.7,1566.6z" fill="#003087"></path>
+                                        		<path d="M1680,1639.4l-33.3-58.2c-31.2-54.1-99.8-170.5-99.8-170.5l-457.4-794.3C971,439.7,690.3,425.1,571.8,647.6 L39.5,1568.7c-110.2,193.4,20.8,444.9,259.9,447h1131.1h482.4h286.9C1906.7,2017.8,1813.1,1866,1680,1639.4L1680,1639.4z" fill="#1972E2"></path>
+                                        		<linearGradient id="mexc-gradient" gradientUnits="userSpaceOnUse" x1="703.637" y1="1211.6566" x2="1935.647" y2="727.2267" gradientTransform="matrix(1 0 0 -1 0 2500)">
+                                        			<stop offset="0" style="stop-color: rgb(38, 76, 162); stop-opacity: 0;"></stop>
+                                        			<stop offset="1" style="stop-color: rgb(35, 69, 136);"></stop>
+                                        		</linearGradient>
+                                        		<path d="M1680.1,1639.4l-33.3-58.2c-31.2-54.1-99.8-170.5-99.8-170.5l-295.3-519.8l-424.2,723.6 c-106,178.8,25,403.4,237,403.4h363.9h482.4h289C1904.6,2015.7,1813.1,1866,1680.1,1639.4L1680.1,1639.4z" fill="url(#mexc-gradient)"></path>
+                                        	</svg>
+                                        	<svg viewBox="8 8 84 84" style="margin-right: -6px;">
+                                        		<path fill="#F7A600" d="m69.17248,54.28325l0,-22.3572l4.4939,0l0,22.3572l-4.4939,0z"></path>
+                                        		<path fill="white" d="m16.79825,60.92435l-9.63407,0l0,-22.35719l9.24666,0c4.49394,0 7.11244,2.44919 7.11244,6.28029c0,2.4799 -1.6817,4.0825 -2.8457,4.6161c1.3894,0.6277 3.1679,2.0404 3.1679,5.0249c0,4.1749 -2.9407,6.4359 -7.04723,6.4359zm-0.74311,-18.4628l-4.39706,0l0,5.1497l4.39706,0c1.90714,0 2.97424,-1.0364 2.97424,-2.5757c0,-1.5376 -1.0671,-2.574 -2.97424,-2.574zm0.29055,9.0749l-4.68761,0l0,5.4952l4.68761,0c2.03739,0 3.00589,-1.2553 3.00589,-2.7638c0,-1.5068 -0.9703,-2.7314 -3.00589,-2.7314z"></path>
+                                        		<path fill="white" d="m37.55238,51.75535l0,9.169l-4.4622,0l0,-9.169l-6.9187,-13.18819l4.8813,0l4.3002,9.01159l4.2351,-9.01159l4.8813,0l-6.917,13.18819z"></path>
+                                        		<path fill="white" d="m57.20988,60.92435l-9.6341,0l0,-22.35719l9.2467,0c4.4939,0 7.1124,2.44919 7.1124,6.28029c0,2.4799 -1.6817,4.0825 -2.8457,4.6161c1.3894,0.6277 3.168,2.0404 3.168,5.0249c0,4.1749 -2.9408,6.4359 -7.0473,6.4359zm-0.7431,-18.4628l-4.3971,0l0,5.1497l4.3971,0c1.9071,0 2.9742,-1.0364 2.9742,-2.5757c0,-1.5376 -1.0671,-2.574 -2.9742,-2.574zm0.2905,9.0749l-4.6876,0l0,5.4952l4.6876,0c2.0374,0 3.0059,-1.2553 3.0059,-2.7638c0,-1.5068 -0.9685,-2.7314 -3.0059,-2.7314z"></path>
+                                        		<path fill="white" d="m88.15018,42.46155l0,18.4645l-4.4939,0l0,-18.4645l-6.0136,0l0,-3.89439l16.5211,0l0,3.89439l-6.0136,0z"></path>
+                                        	</svg>
+                                        	<svg viewBox="0 0 24 24" style="margin-right: -6px;">
+                                        		<path fill="#24ae8f" d="m7.9 12 7.1 6.5 4.5-4.1a2 1.9 0 1 1 2.9 2.6l-5.9 5.4a2.1 1.9 0 0 1-2.9 0l-8.5-7.8v4.7a2 1.9 0 1 1-4.1 0v-15a2 1.9 0 1 1 4.1 0v4.7l8.5-7.8a2.1 1.9 0 0 1 2.9 0l5.9 5.4a2 1.9 0 1 1-2.9 2.6l-4.5-4.1zm7.1-1.9a2 1.9 0 1 0 2 1.9 2 1.9 0 0 0-2-1.9z"></path>
+                                        	</svg>
+                                        	<svg viewBox="0 0 229 229" style="margin-right: -6px;">
+                                        		<path fill="#2354e6" d="M114.475154,177.475321 C79.7034538,177.475321 51.5151256,149.282841 51.5151256,114.500713 C51.5151256,79.7209602 79.7034538,51.5237291 114.475154,51.5237291 L114.475154,-0.000950201555 C51.2515057,-0.000950201555 -1.68750626e-14,51.2624237 -1.68750626e-14,114.500713 C-1.68750626e-14,177.736626 51.2515057,229 114.475154,229 C177.696428,229 228.950308,177.736626 228.950308,114.500713 L177.435183,114.500713 C177.435183,149.282841 149.246855,177.475321 114.475154,177.475321"></path>
+                                        		<polygon fill="#17E6A1" points="114.474679 114.499287 177.434708 114.499287 177.434708 51.5246793 114.474679 51.5246793"></polygon>
+                                        	</svg>
+                                        	<svg viewBox="0 0 40 40" style="margin-right: -6px;">
+                                        		<rect x="0" width="40" height="40" rx="8.7109404" fill="#00f0ff" y="0"></rect>
+                                        		<path d="m 18.459617,15.7671 h 7.4686 l 7.6404,7.5916 c 0.497,0.4938 0.4996,1.2971 0.0051,1.7934 L 23.775317,35 h -7.6937 l 2.326,-2.2613 8.54,-8.4861 -8.4316,-8.4862" fill="#1b1b1b"></path>
+                                        		<path d="m 21.529217,24.2336 h -7.4686 l -7.64042,-7.5917 c -0.49702,-0.4938 -0.49956,-1.297 -0.00508,-1.7934 L 16.213517,5 h 7.6937 l -2.326,2.26132 -8.54,8.48608 8.4316,8.4862" fill="#1b1b1b"></path>
+                                        	</svg>
+                                        	<svg viewBox="-20 0 267 267" style="margin-right: -6px;">
+                                        		<path d="M144.047 191.872H62.2373V199.02H144.047V191.872Z" fill="#000"></path>
+                                        		<path d="M82.7124 236.335H21.3479V243.484H82.7124V236.335Z" fill="#000"></path>
+                                        		<path d="M41.732 191.903H0.903076V199.051H41.732V191.903Z" fill="#000"></path>
+                                        		<path d="M144.047 171.215H82.6821V178.363H144.047V171.215Z" fill="#000"></path>
+                                        		<path d="M62.1768 171.215H21.3782V178.363H62.1768V171.215Z" fill="#000"></path>
+                                        		<path d="M144.046 78.8052H41.7622V85.9533H144.046V78.8052Z" fill="#000"></path>
+                                        		<path d="M62.1768 55.0293H21.3479V62.1774H62.1768V55.0293Z" fill="#000"></path>
+                                        		<path d="M198.293 123.753V123.572C205.417 111.129 209.151 97.0353 209.122 82.6979C209.093 68.3604 205.302 54.2817 198.128 41.8681C190.954 29.4546 180.648 19.141 168.24 11.9578C155.832 4.77458 141.756 0.973239 127.418 0.933594H41.7623V11.1711H127.661C138.664 11.2147 149.509 13.7924 159.354 18.7043C169.2 23.6162 177.782 30.7303 184.435 39.4946C191.087 48.259 195.631 58.438 197.714 69.2421C199.797 80.0462 199.363 91.185 196.446 101.794C198.583 92.6172 198.622 83.0763 196.56 73.8821C194.498 64.6879 190.388 56.0774 184.537 48.6918C178.685 41.3062 171.243 35.336 162.764 31.2257C154.285 27.1155 144.988 24.9711 135.566 24.9524H62.2374V35.1899H135.657C143.884 35.1927 151.995 37.1361 159.33 40.8623C166.665 44.5885 173.018 49.9923 177.872 56.6349C182.726 63.2775 185.945 70.9715 187.267 79.0918C188.589 87.2122 187.978 95.5299 185.481 103.369C187.086 97.3209 187.285 90.9853 186.062 84.8483C184.838 78.7113 182.226 72.9359 178.425 67.965C174.624 62.9941 169.734 58.9598 164.132 56.1714C158.53 53.383 152.364 51.9146 146.106 51.8788H82.5004V62.2072H145.803C151.18 62.2172 156.459 63.6355 161.117 66.3209C165.775 69.0063 169.647 72.865 172.35 77.5128C175.052 82.1606 176.489 87.4352 176.519 92.8114C176.548 98.1876 175.169 103.478 172.518 108.155C163.369 104.753 153.687 103.009 143.925 103.006H62.1465V113.243H143.925C160.607 113.246 176.765 119.068 189.614 129.706C202.464 140.343 211.2 155.131 214.316 171.518C211.207 157.983 203.603 145.901 192.745 137.243C181.886 128.585 168.414 123.862 154.526 123.844H41.7321V133.991H154.678C166.943 134.032 178.785 138.482 188.043 146.527C197.3 154.573 203.357 165.679 205.108 177.818C203.381 168.414 198.416 159.912 191.074 153.787C183.732 147.662 174.477 144.302 164.915 144.289H41.7926V154.527H164.885C173.023 154.527 180.827 157.759 186.581 163.513C192.335 169.267 195.567 177.071 195.567 185.209C195.567 193.346 192.335 201.15 186.581 206.904C180.827 212.658 173.023 215.891 164.885 215.891H21.3479V226.129H164.915C174.477 226.116 183.732 222.756 191.074 216.631C198.416 210.506 203.381 202.003 205.108 192.599C203.333 204.748 197.246 215.853 187.959 223.883C178.671 231.914 166.804 236.334 154.526 236.336H103.036V246.573H154.526C167.864 246.555 180.833 242.199 191.477 234.161C202.12 226.124 209.861 214.842 213.528 202.019C209.696 217.553 200.777 231.359 188.191 241.239C175.606 251.118 160.077 256.504 144.077 256.538H41.8835V266.776H143.925C160.566 266.856 176.835 261.858 190.561 252.448C204.286 243.039 214.814 229.666 220.739 214.116C226.664 198.566 227.705 181.578 223.721 165.421C219.737 149.264 210.919 134.707 198.445 123.693L198.293 123.753Z" fill="#000"></path>
+                                        	</svg>
+                                        	<svg viewBox="0 0 150 150" style="margin-right: -6px;">
+                                        		<defs>
+                                        			<linearGradient id="d" x1="17.68" y1="116.45" x2="132.14" y2="32.11" gradientUnits="userSpaceOnUse">
+                                        				<stop offset="0" stop-color="#2a54ff"></stop>
+                                        				<stop offset=".52" stop-color="#2143cb"></stop>
+                                        				<stop offset="1" stop-color="#2a54ff"></stop>
+                                        			</linearGradient>
+                                        		</defs>
+                                        		<path fill="url(#d)" d="M140.2,22.33c-25.18-.09-49.79,10.83-66.63,29.47-6.06,6.27-10.1,13.95-14.96,21.06-11.64,15.93-29.81,25.14-49.5,25.13h0v28.65h0c25.17,.1,49.78-10.86,66.63-29.5,6.03-6.27,10.13-13.94,14.96-21.06,11.64-15.91,29.81-25.12,49.5-25.11V22.33h0Z"></path>
+                                        		<path fill="#2a54ff" d="M140.2,97.99c-19.68,0-37.86-9.2-49.5-25.11-4.81-7.12-8.92-14.78-14.94-21.06C58.95,33.18,34.3,22.24,9.13,22.35h0v28.65h0c21.8-.11,42.05,11.62,53.01,30.46,3.22,5.62,7.06,10.9,11.45,15.74,16.83,18.63,41.46,29.59,66.63,29.5l-.02-28.7h0Z"></path>
+                                        	</svg>
+                                        	<svg viewBox="0 0 24 24" style="margin-right: -6px;">
+                                        		<rect x="1" y="1" width="22" height="22" fill="#000"></rect>
+                                        		<rect x="6" y="6" width="4" height="4" fill="#fff"></rect>
+                                        		<rect x="14" y="6" width="4" height="4" fill="#fff"></rect>
+                                        		<rect x="10" y="10" width="4" height="4" fill="#fff"></rect>
+                                        		<rect x="6" y="14" width="4" height="4" fill="#fff"></rect>
+                                        		<rect x="14" y="14" width="4" height="4" fill="#fff"></rect>
+                                        	</svg>
+                                        	<svg viewBox="62 62 900 900" style="margin-right: -6px;">
+                                        		<path d="M512.147 692C412.697 692 332.146 611.45 332.146 512C332.146 412.55 412.697 332 512.147 332C601.247 332 675.197 396.95 689.447 482H870.797C855.497 297.2 700.846 152 512.147 152C313.396 152 152.146 313.25 152.146 512C152.146 710.75 313.396 872 512.147 872C700.846 872 855.497 726.8 870.797 542H689.297C675.047 627.05 601.247 692 512.147 692Z" fill="#fff"></path>
+                                        	</svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fa-solid fa-gear me-3"></i>Settings</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="currency">Currency:</label>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <select class="form-select" id="currency">
+                                <option disabled>Fiat</option>
+                                <option selected value="usd">$ USD</option>
+                                <option value="eur">€ EUR</option>
+                                <option value="rub">₽ RUB</option>
+                                <option value="brl">R$ BRL</option>
+                                <option value="gbp">£ GBP</option>
+                                <option value="inr">₹ INR</option>
+                                <option value="aud">$ AUD</option>
+                                <option value="cad">$ CAD</option>
+                                <option value="pln">Zł PLN</option>
+                                <option value="try">₺ TRY</option>
+                                <option disabled>Crypto</option>
+                                <option value="btc">₿ BTC</option>
+                                <option value="eth">Ξ ETH</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="language">Language:</label>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <select class="form-select" id="language">
+                                <option selected value="usd">English</option>
+                                <option value="eur">Русский</option>
+                                <option value="rub">Portugues</option>
+                                <option value="brl">Français</option>
+                                <option value="gbp">Deutsch</option>
+                                <option value="inr">فارسی</option>
+                                <option value="aud">Polski</option>
+                                <option value="cad">Español</option>
+                                <option value="pln">Nederlands</option>
+                                <option value="try">Italian</option>
+                                <option value="">Türkçe</option>
+                                <option value="btc">العربية</option>
+                                <option value="eth">ไทย</option>
+                                <option>日本語</option>
+                                <option>简体中文</option>
+                                <option>Українська</option>
+                                <option>Čeština</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="colors">Colors:</label>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <select class="form-select" id="colors">
+                                <option selected value="red-green">Red + Geen</option>
+                                <option value="yellow-blue">Yellow + Blue</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="stablecoins">Stablecoins:</label>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <select class="form-select" id="tablecoins">
+                                <option selected value="show">Show</option>
+                                <option value="hide">Hide</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/jquery/jquery.js"></script>
+    <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/select2/select2.min.js"></script>
+    <script src="assets/vendor/datatables/datatables.min.js"></script>
+    <script src="assets/vendor/d3/d3.v7.min.js"></script>
+    <script src="assets/js/custom.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,404 @@
+{
+    "currencies": [
+        {
+            "Currency": "BTC",
+            "Rates": "61539.00000000"
+        },
+        {
+            "Currency": "ETH",
+            "Rates": "2476.00000000"
+        },
+        {
+            "Currency": "USDT",
+            "Rates": "0.99980000"
+        },
+        {
+            "Currency": "BNB",
+            "Rates": "553.72000000"
+        },
+        {
+            "Currency": "SOL",
+            "Rates": "146.95000000"
+        },
+        {
+            "Currency": "USDC",
+            "Rates": "1.00000000"
+        },
+        {
+            "Currency": "XRP",
+            "Rates": "0.59850000"
+        },
+        {
+            "Currency": "DOGE",
+            "Rates": "0.10750000"
+        },
+        {
+            "Currency": "TON",
+            "Rates": "5.45400000"
+        },
+        {
+            "Currency": "TRX",
+            "Rates": "0.15440000"
+        },
+        {
+            "Currency": "ADA",
+            "Rates": "0.35640000"
+        },
+        {
+            "Currency": "AVAX",
+            "Rates": "26.16000000"
+        },
+        {
+            "Currency": "SHIB",
+            "Rates": "0.00001671"
+        },
+        {
+            "Currency": "LINK",
+            "Rates": "11.20000000"
+        },
+        {
+            "Currency": "BCH",
+            "Rates": "321.62000000"
+        },
+        {
+            "Currency": "DOT",
+            "Rates": "4.20100000"
+        },
+        {
+            "Currency": "NEAR",
+            "Rates": "4.87200000"
+        },
+        {
+            "Currency": "LEO",
+            "Rates": "5.89600000"
+        },
+        {
+            "Currency": "DAI",
+            "Rates": "1.00100000"
+        },
+        {
+            "Currency": "SUI",
+            "Rates": "1.85900000"
+        },
+        {
+            "Currency": "LTC",
+            "Rates": "64.08000000"
+        },
+        {
+            "Currency": "UNI",
+            "Rates": "7.04300000"
+        },
+        {
+            "Currency": "PEPE",
+            "Rates": "0.00001004"
+        },
+        {
+            "Currency": "TAO",
+            "Rates": "546.55000000"
+        },
+        {
+            "Currency": "ICP",
+            "Rates": "8.31400000"
+        },
+        {
+            "Currency": "APT",
+            "Rates": "7.73300000"
+        },
+        {
+            "Currency": "FET",
+            "Rates": "1.51300000"
+        },
+        {
+            "Currency": "KAS",
+            "Rates": "0.15160000"
+        },
+        {
+            "Currency": "RENDER",
+            "Rates": "5.92700000"
+        },
+        {
+            "Currency": "POL",
+            "Rates": "0.38370000"
+        },
+        {
+            "Currency": "XLM",
+            "Rates": "0.09448000"
+        },
+        {
+            "Currency": "ETC",
+            "Rates": "18.58000000"
+        },
+        {
+            "Currency": "FDUSD",
+            "Rates": "0.99870000"
+        },
+        {
+            "Currency": "XMR",
+            "Rates": "145.60000000"
+        },
+        {
+            "Currency": "STX",
+            "Rates": "1.74300000"
+        },
+        {
+            "Currency": "IMX",
+            "Rates": "1.59100000"
+        },
+        {
+            "Currency": "USDE",
+            "Rates": "0.99890000"
+        },
+        {
+            "Currency": "OKB",
+            "Rates": "40.49000000"
+        },
+        {
+            "Currency": "WIF",
+            "Rates": "2.41700000"
+        },
+        {
+            "Currency": "AAVE",
+            "Rates": "148.73000000"
+        },
+        {
+            "Currency": "FIL",
+            "Rates": "3.67700000"
+        },
+        {
+            "Currency": "INJ",
+            "Rates": "22.08000000"
+        },
+        {
+            "Currency": "CRO",
+            "Rates": "0.08107000"
+        },
+        {
+            "Currency": "OP",
+            "Rates": "1.68900000"
+        },
+        {
+            "Currency": "HBAR",
+            "Rates": "0.05444000"
+        },
+        {
+            "Currency": "ARB",
+            "Rates": "0.55750000"
+        },
+        {
+            "Currency": "FTM",
+            "Rates": "0.71330000"
+        },
+        {
+            "Currency": "MNT",
+            "Rates": "0.59850000"
+        },
+        {
+            "Currency": "VET",
+            "Rates": "0.02301000"
+        },
+        {
+            "Currency": "BONK",
+            "Rates": "0.00002528"
+        },
+        {
+            "Currency": "ATOM",
+            "Rates": "4.52300000"
+        },
+        {
+            "Currency": "SEI",
+            "Rates": "0.46330000"
+        },
+        {
+            "Currency": "RUNE",
+            "Rates": "4.80000000"
+        },
+        {
+            "Currency": "GRT",
+            "Rates": "0.16240000"
+        },
+        {
+            "Currency": "BGB",
+            "Rates": "0.97990000"
+        },
+        {
+            "Currency": "FLOKI",
+            "Rates": "0.00014280"
+        },
+        {
+            "Currency": "HNT",
+            "Rates": "7.90300000"
+        },
+        {
+            "Currency": "MKR",
+            "Rates": "1515.00000000"
+        },
+        {
+            "Currency": "THETA",
+            "Rates": "1.32500000"
+        },
+        {
+            "Currency": "AR",
+            "Rates": "20.02000000"
+        },
+        {
+            "Currency": "HEX",
+            "Rates": "0.01377000"
+        },
+        {
+            "Currency": "HTX",
+            "Rates": "0.00000126"
+        },
+        {
+            "Currency": "PYTH",
+            "Rates": "0.33360000"
+        },
+        {
+            "Currency": "TIA",
+            "Rates": "5.30000000"
+        },
+        {
+            "Currency": "JUP",
+            "Rates": "0.82960000"
+        },
+        {
+            "Currency": "OM",
+            "Rates": "1.27800000"
+        },
+        {
+            "Currency": "ALGO",
+            "Rates": "0.12710000"
+        },
+        {
+            "Currency": "LDO",
+            "Rates": "1.15700000"
+        },
+        {
+            "Currency": "ONDO",
+            "Rates": "0.73550000"
+        },
+        {
+            "Currency": "JASMY",
+            "Rates": "0.02069000"
+        },
+        {
+            "Currency": "WBT",
+            "Rates": "11.39000000"
+        },
+        {
+            "Currency": "POPCAT",
+            "Rates": "1.00600000"
+        },
+        {
+            "Currency": "W",
+            "Rates": "0.37850000"
+        },
+        {
+            "Currency": "BEAM",
+            "Rates": "0.01902000"
+        },
+        {
+            "Currency": "KCS",
+            "Rates": "7.80300000"
+        },
+        {
+            "Currency": "BSV",
+            "Rates": "46.16000000"
+        },
+        {
+            "Currency": "BRETT",
+            "Rates": "0.08924000"
+        },
+        {
+            "Currency": "BTT ",
+            "Rates": "9.1e-7"
+        },
+        {
+            "Currency": "WLD",
+            "Rates": "1.74000000"
+        },
+        {
+            "Currency": "CORE",
+            "Rates": "0.93680000"
+        },
+        {
+            "Currency": "QNT",
+            "Rates": "70.30000000"
+        },
+        {
+            "Currency": "PLS",
+            "Rates": "0.00005278"
+        },
+        {
+            "Currency": "FLOW",
+            "Rates": "0.55030000"
+        },
+        {
+            "Currency": "CFX",
+            "Rates": "0.18970000"
+        },
+        {
+            "Currency": "NOT",
+            "Rates": "0.00782600"
+        },
+        {
+            "Currency": "STRK",
+            "Rates": "0.40150000"
+        },
+        {
+            "Currency": "GT",
+            "Rates": "8.47800000"
+        },
+        {
+            "Currency": "EOS",
+            "Rates": "0.48550000"
+        },
+        {
+            "Currency": "USDD",
+            "Rates": "1.00000000"
+        },
+        {
+            "Currency": "FTT",
+            "Rates": "2.24200000"
+        },
+        {
+            "Currency": "AXS",
+            "Rates": "4.82100000"
+        },
+        {
+            "Currency": "FTN",
+            "Rates": "2.39900000"
+        },
+        {
+            "Currency": "EIGEN",
+            "Rates": "3.92300000"
+        },
+        {
+            "Currency": "GALA",
+            "Rates": "0.02095000"
+        },
+        {
+            "Currency": "NEO",
+            "Rates": "10.34000000"
+        },
+        {
+            "Currency": "CHEEL",
+            "Rates": "12.79000000"
+        },
+        {
+            "Currency": "FLR",
+            "Rates": "0.01496000"
+        },
+        {
+            "Currency": "ORDI",
+            "Rates": "34.37000000"
+        },
+        {
+            "Currency": "EGLD",
+            "Rates": "25.97000000"
+        },
+        {
+            "Currency": "CKB",
+            "Rates": "0.01564000"
+        }
+    ]
+}
