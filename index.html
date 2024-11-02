@@ -360,7 +360,7 @@
         // Select the SVG and set up viewBox for responsiveness
         // Initial width, height, and squareSize based on screen size
 let width = window.innerWidth;
-let height = window.innerHeight;
+let height = window.innerHeight* 0.8;
 const borderColors = ["#ff0000", "#60e550"];
 const svg = d3.select("svg")
               .attr("viewBox", `0 0 ${width} ${height}`)
@@ -376,7 +376,7 @@ const logoSize = squareSize / 4; // Adjust logo size relative to square size
 // Function to create squares based on current dimensions
 function createSquares() {
     width = window.innerWidth;
-    height = window.innerHeight;
+    height = window.innerHeight* 0.8;
     squareSize = Math.min(70, width / 10); // Recalculate square size
     const cols = Math.floor(width / squareSize);
 
