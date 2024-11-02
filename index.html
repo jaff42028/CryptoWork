@@ -9,6 +9,22 @@
     <link href="assets/vendor/fontawesome/css/all.css" type="text/css" rel="stylesheet">
     <link href="assets/css/custom.css" type="text/css" rel="stylesheet">
     <title>Crypto Squares</title>
+    <style>
+        .square {
+            opacity: 0.7;
+        }
+        .square-text {
+            font-size: 12px;
+            text-anchor: middle; /* Center the text */
+            fill: white; /* Text color */
+        }
+        .square-text-name {
+            font-size: 16px; /* Font size for name */
+            font-family: 'Arial', sans-serif; /* Font style for name */
+            text-anchor: middle; /* Center the text horizontally */
+            fill: white; /* Text color for name */
+        }
+    </style>
 </head>
 <body class="bg-dark">
     <header>
@@ -115,14 +131,7 @@
             <div class="tab-content mt-3">
                 <div id="hour" class="container-fluid tab-pane active"><br>
                     <div class="chart-container">
-                        <svg width="1500" height="540" id="chart" class="chart">
-                            <defs>
-                                <linearGradient id="gradient-border" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color: #9be15d; stop-opacity: 1" />
-                                    <stop offset="100%" style="stop-color: #00e3ae; stop-opacity: 1" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                        <svg id="chart" class="chart"></svg>
                     </div>
                 </div>
                 <div id="day" class="container-fluid tab-pane fade"><br>
@@ -142,7 +151,7 @@
                 </div>
             </div>
         </div>
-    </section>  
+    </section>
     
     <section class="mt-3">
         <div class="container-fluid">
@@ -347,7 +356,116 @@
     <script src="assets/vendor/select2/select2.min.js"></script>
     <script src="assets/vendor/datatables/datatables.min.js"></script>
     <script src="assets/vendor/d3/d3.v7.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script>
+        // Select the SVG and set up viewBox for responsiveness
+        // Initial width, height, and squareSize based on screen size
+let width = window.innerWidth;
+let height = window.innerHeight;
+const borderColors = ["#ff0000", "#60e550"];
+const svg = d3.select("svg")
+              .attr("viewBox", `0 0 ${width} ${height}`)
+              .attr("preserveAspectRatio", "xMidYMid meet")
+              .style("width", "100%") // Responsive width
+              .style("height", "100%"); // Responsive height
+
+
+let squareSize = Math.min(70, width / 10); // Adjust square size based on screen width
+const padding = 10;
+const logoSize = squareSize / 4; // Adjust logo size relative to square size
+
+// Function to create squares based on current dimensions
+function createSquares() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    squareSize = Math.min(70, width / 10); // Recalculate square size
+    const cols = Math.floor(width / squareSize);
+
+    svg.selectAll("*").remove(); // Clear SVG content on resize
+
+    // Load and process data
+    d3.csv("currencies.csv").then(data => {
+        const squares = [];
+        data.forEach(d => {
+            let attempts = 0;
+            let x, y, overlaps;
+            const value = +d.Rates;
+            
+            do {
+                x = Math.random() * (width - squareSize);
+                y = Math.random() * (height - squareSize);
+                overlaps = squares.some(square =>
+                    x < square.x + squareSize &&
+                    x + squareSize > square.x &&
+                    y < square.y + squareSize &&
+                    y + squareSize > square.y
+                );
+                attempts++;
+            } while (overlaps && attempts < 100);
+
+            if (attempts < 100) {
+                squares.push({ x, y, name: d.Currency, value, image: d.image });
+            }
+        });
+
+        // Create squares
+        svg.selectAll(".square")
+            .data(squares)
+            .enter()
+            .append("rect")
+            .attr("class", "square")
+            .attr("x", d => d.x)
+            .attr("y", d => d.y)
+            .attr("width", squareSize)
+            .attr("height", squareSize)
+            .attr("fill", (d, i) => d3.schemeCategory10[i % 10])
+            .attr("stroke", (d, i) => borderColors[i % borderColors.length])
+            .attr("stroke-width", 2);
+
+        // Add text inside squares
+        svg.selectAll(".square-text-name")
+            .data(squares)
+            .enter()
+            .append("text")
+            .attr("class", "square-text-name")
+            .attr("x", d => d.x + squareSize / 2)
+            .attr("y", d => d.y + squareSize / 2)
+            .style("font-size", `${squareSize / 5}px`)
+            .style("text-anchor", "middle")
+            .text(d => d.name);
+
+        svg.selectAll(".square-value")
+            .data(squares)
+            .enter()
+            .append("text")
+            .attr("class", "square-value")
+            .attr("x", d => d.x + squareSize / 2)
+            .attr("y", d => d.y + (3 * squareSize) / 4)
+            .style("font-size", `${squareSize / 5}px`)
+            .style("text-anchor", "middle")
+            .text(d => d.value);
+
+        svg.selectAll(".square-image")
+            .data(squares)
+            .enter()
+            .append("image")
+            .attr("class", "square-image")
+            .attr("xlink:href", d => d.image)
+            .attr("x", d => d.x + (squareSize - logoSize) / 2)
+            .attr("y", d => d.y + (squareSize - logoSize) / 8)
+            .attr("width", logoSize)
+            .attr("height", logoSize);
+    });
+}
+
+// Initial creation of squares
+createSquares();
+
+// Redraw squares on window resize
+window.addEventListener("resize", createSquares);
+
+    </script>
+   
+    <!-- <script src="assets/js/script.js"></script> -->
     
 </body>
 </html>
