@@ -18,11 +18,19 @@
             text-anchor: middle; /* Center the text */
             fill: white; /* Text color */
         }
-        .square-text-name {
+        .square-text-name, .square-value {
             font-size: 16px; /* Font size for name */
             font-family: 'Arial', sans-serif; /* Font style for name */
             text-anchor: middle; /* Center the text horizontally */
             fill: white; /* Text color for name */
+        }
+        .svg-container {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+            height: 80vh; /* Adjust as needed */
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow effect */
+            border-radius: 8px; /* Optional: rounds the corners */
         }
     </style>
 </head>
@@ -131,7 +139,20 @@
             <div class="tab-content mt-3">
                 <div id="hour" class="container-fluid tab-pane active"><br>
                     <div class="chart-container">
-                        <svg id="chart" class="chart"></svg>
+                        <svg id="chart" class="chart">
+                            <filter id="inner-shadow" x="-20%" y="-20%" width="200%" height="200%">
+                                <feComponentTransfer in="SourceAlpha">
+                                    <feFuncA type="table" tableValues="1 0"/>
+                                </feComponentTransfer>
+                                <feGaussianBlur stdDeviation="4" result="blur"/>
+                                <feOffset dx="2" dy="2" result="offsetBlur"/>
+                                <feComposite operator="in" in2="SourceAlpha" in="offsetBlur"/>
+                                <feMerge>
+                                    <feMergeNode/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </svg>
                     </div>
                 </div>
                 <div id="day" class="container-fluid tab-pane fade"><br>
@@ -351,6 +372,98 @@
         </div>
     </div>
 
+    <!-- <section class="window bubble-window" id="modal2"> -->
+        <!-- <header class="flex-row gap-m">
+            <button class="icon-button expand-button expanded" title="Toggle expansion">
+                <svg viewBox="0 0 24 24">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+                </svg>
+            </button>
+            <button class="icon-button button-lists" title="Add to List">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
+                </svg>
+            </button>
+            <div class="flex-row gap-m grow">
+                <img height="24" src="/1027.png" alt="Hedera" title="Logo of Hedera"><span>Hedera</span>
+            </div>
+            <button class="icon-button modal-close" title="Close window">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z">
+
+                    </path>
+                </svg>
+            </button>
+        </header> -->
+    <!-- </section> -->
+
+
+    <div class="modal colorw" id="modal2">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content modalc">
+                <div class="modal-header">
+                    <img src="/1831.png">
+                    <h4 class="modal-title" style="color: white;margin-left:20px;">BitCoin</h4>
+                    <button type="button" class="modal-close btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body colorw">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="currency">Currency:</label>
+                        </div>
+                        <div class="col-12 col-lg-6 colorw">
+                            <select class="form-select colorw" id="currency">
+                                <option disabled>Fiat</option>
+                                <option selected value="usd">$ USD</option>
+                                <option value="eur">€ EUR</option>
+                                <option value="rub">₽ RUB</option>
+                                <option value="brl">R$ BRL</option>
+                                <option value="gbp">£ GBP</option>
+                                <option value="inr">₹ INR</option>
+                                <option value="aud">$ AUD</option>
+                                <option value="cad">$ CAD</option>
+                                <option value="pln">Zł PLN</option>
+                                <option value="try">₺ TRY</option>
+                                <option disabled>Crypto</option>
+                                <option value="btc">₿ BTC</option>
+                                <option value="eth">Ξ ETH</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="language">Language:</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="colors">Colors:</label>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <select class="form-select" id="colors">
+                                <option selected value="red-green">Red + Geen</option>
+                                <option value="yellow-blue">Yellow + Blue</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-6 my-auto">
+                            <label for="stablecoins">Stablecoins:</label>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <select class="form-select" id="tablecoins">
+                                <option selected value="show">Show</option>
+                                <option value="hide">Hide</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+         
+
     <script src="assets/vendor/jquery/jquery.js"></script>
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/select2/select2.min.js"></script>
@@ -358,10 +471,23 @@
     <script src="assets/vendor/d3/d3.v7.min.js"></script>
     <script>
         // Select the SVG and set up viewBox for responsiveness
+        const modal = document.getElementById("modal2");
+        const modalClose = document.querySelector(".modal-close");
+        modalClose.onclick = function() {
+        modal.style.display = "none";
+        };
+
+        window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+        };
         // Initial width, height, and squareSize based on screen size
 let width = window.innerWidth;
 let height = window.innerHeight* 0.8;
-const borderColors = ["#ff0000", "#60e550"];
+const borderColors = ["#FF3131", "#228B22","#50C878","#FA5F55"];
+
+const shadowOpacity = 0.5;  // Opacity for shadow
 const svg = d3.select("svg")
               .attr("viewBox", `0 0 ${width} ${height}`)
               .attr("preserveAspectRatio", "xMidYMid meet")
@@ -373,6 +499,7 @@ let squareSize = Math.min(70, width / 10); // Adjust square size based on screen
 const padding = 10;
 const logoSize = squareSize / 4; // Adjust logo size relative to square size
 
+svg.append("defs");
 // Function to create squares based on current dimensions
 function createSquares() {
     width = window.innerWidth;
@@ -407,54 +534,146 @@ function createSquares() {
             }
         });
 
-        // Create squares
-        svg.selectAll(".square")
+        // borderColors.forEach((color, i) => {
+        //     createShadowFilter(color, `shadow-filter-${i}`);
+        // });
+
+        const groups = svg.selectAll(".square-group")
             .data(squares)
             .enter()
-            .append("rect")
+            .append("g")
+            .attr("class", (d, i) => i % 2 === 0 ? "square-group float-horizontal" : "square-group float-vertical") // Alternate movement direction
+    //        .attr("class", (d, i) => i % 2 === 0 ? "square-group float-left" : "square-group float-right") // Alternate classes
+            .attr("transform", d => `translate(${d.x}, ${d.y})`); // Position group at square location
+
+
+        // Create squares
+        groups.append("rect")
             .attr("class", "square")
             .attr("x", d => d.x)
             .attr("y", d => d.y)
             .attr("width", squareSize)
             .attr("height", squareSize)
-            .attr("fill", (d, i) => d3.schemeCategory10[i % 10])
+            //.attr("fill", (d, i) => d3.schemeCategory10[i % 10])
+            .attr("fill", "#222")
             .attr("stroke", (d, i) => borderColors[i % borderColors.length])
-            .attr("stroke-width", 2);
+            .attr("stroke-width", 2 )
+            .on("mouseover", function(event, d) {
+                d3.select(this)
+                    .attr("stroke", "#fcfcff") // Change border color to gold on hover
+                    .attr("stroke-width", 4 );
+            })
+            .on("mouseout", function(event, d, i) {
+                d3.select(this)
+                    .attr("stroke", (d, i) => borderColors[i % borderColors.length]); // Restore original border color
+            })
+            .attr("filter", "url(#drop-shadow)") // Apply inner shadow filter
+            .each(function(d, i) {
+                // Set shadow color to match border color
+                d3.select(this)
+                    .style("filter", `drop-shadow(2px 6px 6px ${borderColors[i % borderColors.length]})`);
+            })
+            .on("click", (event, d) => {
+            modal.style.display = "block";
+            modal.style.background = "rgba(0,0,0,0.5)"
+            modalText.textContent = `Currency: ${d.name}\nRate: ${d.value}`;
+        });
+
+        // svg.selectAll(".square")
+        //     .data(squares)
+        //     .enter()
+        //     .append("rect")
+        //     .attr("class", "square")
+        //     .attr("class", (d, i) => i % 2 === 0 ? "square float-left" : "square float-right")
+        //     .attr("x", d => d.x)
+        //     .attr("y", d => d.y)
+        //     .attr("width", squareSize)
+        //     .attr("height", squareSize)
+        //     .attr("fill", (d, i) => d3.schemeCategory10[i % 10])
+        //     .attr("stroke", (d, i) => borderColors[i % borderColors.length])
+        //     .attr("stroke-width", 2)
+        //     .style("animation-delay", () => `${Math.random() * 2}s`);
 
         // Add text inside squares
-        svg.selectAll(".square-text-name")
-            .data(squares)
-            .enter()
-            .append("text")
+        groups.append("text")
             .attr("class", "square-text-name")
             .attr("x", d => d.x + squareSize / 2)
             .attr("y", d => d.y + squareSize / 2)
             .style("font-size", `${squareSize / 5}px`)
             .style("text-anchor", "middle")
             .text(d => d.name);
+        // svg.selectAll(".square-text-name")
+        //     .data(squares)
+        //     .enter()
+        //     .append("text")
+        //     .attr("class", "square-text-name")
+        //     //.attr("class", (d, i) => i % 2 === 0 ? "square float-left" : "square float-right")
+        //     .attr("x", d => d.x + squareSize / 2)
+        //     .attr("y", d => d.y + squareSize / 2)
+        //     .style("font-size", `${squareSize / 5}px`)
+        //     .style("text-anchor", "middle")
+        //     .text(d => d.name)
+        //     .style("animation-delay", () => `${Math.random() * 2}s`);
 
-        svg.selectAll(".square-value")
-            .data(squares)
-            .enter()
-            .append("text")
+        groups.append("text")
             .attr("class", "square-value")
             .attr("x", d => d.x + squareSize / 2)
             .attr("y", d => d.y + (3 * squareSize) / 4)
             .style("font-size", `${squareSize / 5}px`)
             .style("text-anchor", "middle")
             .text(d => d.value);
+        // svg.selectAll(".square-value")
+        //     .data(squares)
+        //     .enter()
+        //     .append("text")
+        //     .attr("class", "square-value")
+        //     //.attr("class", (d, i) => i % 2 === 0 ? "square float-left" : "square float-right")
+        //     .attr("x", d => d.x + squareSize / 2)
+        //     .attr("y", d => d.y + (3 * squareSize) / 4)
+        //     .style("font-size", `${squareSize / 5}px`)
+        //     .style("text-anchor", "middle")
+        //     .text(d => d.value)
+        //     .style("animation-delay", () => `${Math.random() * 2}s`);
 
-        svg.selectAll(".square-image")
-            .data(squares)
-            .enter()
-            .append("image")
+        groups.append("image")
             .attr("class", "square-image")
             .attr("xlink:href", d => d.image)
             .attr("x", d => d.x + (squareSize - logoSize) / 2)
             .attr("y", d => d.y + (squareSize - logoSize) / 8)
             .attr("width", logoSize)
             .attr("height", logoSize);
+        // svg.selectAll(".square-image")
+        //     .data(squares)
+        //     .enter()
+        //     .append("image")
+        //     .attr("class", "square-image")
+        //     //.attr("class", (d, i) => i % 2 === 0 ? "square float-left" : "square float-right")
+        //     .attr("xlink:href", d => d.image)
+        //     .attr("x", d => d.x + (squareSize - logoSize) / 2)
+        //     .attr("y", d => d.y + (squareSize - logoSize) / 8)
+        //     .attr("width", logoSize)
+        //     .attr("height", logoSize)
+        //     .style("animation-delay", () => `${Math.random() * 2}s`);
     });
+}
+function createShadowFilter(color, id) {
+    const defs = svg.select("defs");
+
+    // Add the filter element to the defs
+    const filter = defs.append("filter")
+        .attr("id", id)
+        .attr("x", "-20%")
+        .attr("y", "-20%")
+        .attr("width", "140%")
+        .attr("height", "140%");
+
+    // Create a drop shadow with the specified color
+    filter.append("feDropShadow")
+        .attr("dx", 5)
+        .attr("dy", 5)
+        .attr("stdDeviation", 5)
+        .attr("flood-color", color) // Set shadow color
+        .attr("flood-opacity", 2.5); // Adjust shadow opacity as needed
 }
 
 // Initial creation of squares
