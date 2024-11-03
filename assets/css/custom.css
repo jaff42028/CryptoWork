@@ -152,3 +152,39 @@ text {
     text-anchor: middle; /* Center the text horizontally */
     fill: white; /* Text color for name */
 }
+@keyframes float-horizontal {
+    0%, 100% {
+        transform: translateX(0px);
+    }
+    50% {
+        transform: translateX(3px); /* Adjust for small horizontal shift */
+    }
+}
+
+@keyframes float-vertical {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(3px); /* Adjust for small vertical shift */
+    }
+}
+
+.float-horizontal {
+    animation: float-horizontal 6s ease-in-out infinite;
+}
+
+.float-vertical {
+    animation: float-vertical 6s ease-in-out infinite;
+}
+.modalc{
+    box-shadow: 0 4px 16px #0006;
+    border-radius: 12px;
+    background-color: #444444fc;
+    max-height: 100%;
+    overflow-y: auto;
+    pointer-events: auto;
+}
+.colorw{
+    color:white;
+}
