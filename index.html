@@ -9,7 +9,7 @@
     <link href="assets/vendor/fontawesome/css/all.css" type="text/css" rel="stylesheet">
     <link href="assets/css/custom.css" type="text/css" rel="stylesheet">
     <title>Crypto Squares</title>
-    <style>
+    <!-- <style>
         .square {
             opacity: 0.7;
         }
@@ -31,6 +31,80 @@
             height: 80vh; /* Adjust as needed */
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* Inner shadow effect */
             border-radius: 8px; /* Optional: rounds the corners */
+        }
+        .bubble {
+            stroke: #fff;
+            stroke-width: 1.5px;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 80px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden; 
+            width: 100vw;
+            height: 100vh;
+            /* position: fixed; */
+        }
+
+        #chart {
+            width: 100%;
+            height: 100%;
+        }
+
+        .square {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .square-border {
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .square-container {
+            cursor: move;
+        }
+
+        .square-label, .percentage-label {
+            pointer-events: none;
+            font-weight: bold;
+            text-anchor: middle;
+            fill: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .currency-logo {
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .square-label {
+                font-size: 10px !important;
+            }
+            .percentage-label {
+                font-size: 9px !important;
+            }
         }
     </style>
 </head>
@@ -137,9 +211,10 @@
             </ul>
             
             <div class="tab-content mt-3">
-                <div id="hour" class="container-fluid tab-pane active"><br>
+                <div id="hour" class="container-fluid tab-pane active">
                     <div class="chart-container">
-                        <svg id="chart" class="chart">
+                        <div id="chart"></div>
+                        <!-- <svg id="chart" class="chart">
                             <filter id="inner-shadow" x="-20%" y="-20%" width="200%" height="200%">
                                 <feComponentTransfer in="SourceAlpha">
                                     <feFuncA type="table" tableValues="1 0"/>
@@ -152,7 +227,7 @@
                                     <feMergeNode in="SourceGraphic"/>
                                 </feMerge>
                             </filter>
-                        </svg>
+                        </svg> -->
                     </div>
                 </div>
                 <div id="day" class="container-fluid tab-pane fade"><br>
@@ -462,14 +537,225 @@
             </div>
         </div>
     </div>
-         
-
+    
+    <script src="assets/vendor/d3/d3.v7.min.js"></script>
     <script src="assets/vendor/jquery/jquery.js"></script>
     <script src="assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/select2/select2.min.js"></script>
     <script src="assets/vendor/datatables/datatables.min.js"></script>
-    <script src="assets/vendor/d3/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    
     <script>
+        function getResponsiveSizes() {
+            const width = window.innerWidth *0.95;
+            const height = window.innerHeight * 0.82;
+            const isSmallScreen = width < 768;
+            
+            return {
+                width,
+                height,
+                minSize: isSmallScreen ? 30 : 40,
+                maxSize: isSmallScreen ? 60 : 100,
+                padding: isSmallScreen ? 3 : 5,
+                logoScale: isSmallScreen ? 0.25 : 0.3,
+                textScale: isSmallScreen ? 0.16 : 0.18,
+                collisionStrength: isSmallScreen ? 0.7 : 0.9,
+                chargeStrength: isSmallScreen ? -30 : -50
+            };
+        }
+
+        const data = Array.from({ length: 80 }, (_, i) => ({
+            symbol: `COIN${(i + 1).toString().padStart(2, '0')}`,
+            name: `Coin ${i + 1}`,
+            price: Math.random() * 10000,
+            change24h: Number((Math.random() * 20 - 10).toFixed(2)),
+            marketCap: Math.random() * 1000000000000,
+            logoColor: `hsl(${Math.random() * 360}, 70%, 50%)`
+        }));
+
+        let sizes = getResponsiveSizes();
+        let simulation;
+        let svg;
+        let squareGroups;
+
+        function initializeVisualization() {
+            d3.select("#chart").selectAll("*").remove();
+
+            svg = d3.select("#chart")
+                .append("svg")
+                .attr("width", sizes.width)
+                .attr("height", sizes.height);
+
+            // Define filters
+            const defs = svg.append("defs");
+
+            // Create glow filter for green (positive change)
+            const greenGlow = defs.append("filter")
+                .attr("id", "greenGlow")
+                .attr("x", "-50%")
+                .attr("y", "-50%")
+                .attr("width", "200%")
+                .attr("height", "200%");
+
+            greenGlow.append("feGaussianBlur")
+                .attr("stdDeviation", "3")
+                .attr("result", "coloredBlur");
+            greenGlow.append("feFlood")
+                .attr("flood-color", "#22c55e")
+                .attr("flood-opacity", "0.5")
+                .attr("result", "greenColor");
+            greenGlow.append("feComposite")
+                .attr("in", "greenColor")
+                .attr("in2", "coloredBlur")
+                .attr("operator", "in")
+                .attr("result", "greenGlow");
+
+            const feMergeGreen = greenGlow.append("feMerge");
+            feMergeGreen.append("feMergeNode").attr("in", "greenGlow");
+            feMergeGreen.append("feMergeNode").attr("in", "SourceGraphic");
+
+            // Create glow filter for red (negative change)
+            const redGlow = defs.append("filter")
+                .attr("id", "redGlow")
+                .attr("x", "-50%")
+                .attr("y", "-50%")
+                .attr("width", "200%")
+                .attr("height", "200%");
+
+            redGlow.append("feGaussianBlur")
+                .attr("stdDeviation", "3")
+                .attr("result", "coloredBlur");
+            redGlow.append("feFlood")
+                .attr("flood-color", "#ef4444")
+                .attr("flood-opacity", "0.5")
+                .attr("result", "redColor");
+            redGlow.append("feComposite")
+                .attr("in", "redColor")
+                .attr("in2", "coloredBlur")
+                .attr("operator", "in")
+                .attr("result", "redGlow");
+
+            const feMergeRed = redGlow.append("feMerge");
+            feMergeRed.append("feMergeNode").attr("in", "redGlow");
+            feMergeRed.append("feMergeNode").attr("in", "SourceGraphic");
+
+            const sizeScale = d3.scaleSqrt()
+                .domain([d3.min(data, d => d.marketCap), d3.max(data, d => d.marketCap)])
+                .range([sizes.minSize, sizes.maxSize]);
+
+            data.forEach((d, i) => {
+                const radius = Math.min(sizes.width, sizes.height) * 0.45;
+                const theta = i * 2 * Math.PI / (1 + Math.sqrt(5));
+                const r = radius * Math.sqrt(i / data.length);
+                
+                d.x = sizes.width/2 + r * Math.cos(theta);
+                d.y = sizes.height/2 + r * Math.sin(theta);
+                d.size = sizeScale(d.marketCap);
+            });
+
+            simulation = d3.forceSimulation(data)
+                .alphaDecay(0.02)
+                .alphaMin(0.001)
+                .velocityDecay(0.4)
+                .force("charge", d3.forceManyBody()
+                    .strength(sizes.chargeStrength)
+                    .distanceMax(Math.min(sizes.width, sizes.height) * 0.4))
+                .force("collide", d3.forceCollide()
+                    .radius(d => d.size * 0.7)
+                    .strength(sizes.collisionStrength)
+                    .iterations(3))
+                .force("x", d3.forceX(sizes.width / 2).strength(0.05))
+                .force("y", d3.forceY(sizes.height / 2).strength(0.05));
+
+            squareGroups = svg.selectAll("g")
+                .data(data)
+                .enter()
+                .append("g")
+                .attr("class", "square-container");
+
+            squareGroups.each(function(d) {
+                const group = d3.select(this);
+
+                // Background square with transparent fill and glowing border
+                group.append("rect")
+                    .attr("class", "square")
+                    .attr("width", d.size)
+                    .attr("height", d.size)
+                    .attr("x", -d.size / 2)
+                    .attr("y", -d.size / 2)
+                    .style("fill", "rgba(0, 0, 0, 0.2)")
+                    .style("stroke", d => d.change24h >= 0 ? "#22c55e" : "#ef4444")
+                    .style("stroke-width", "2")
+                    // .attr("rx", 8)
+                    // .attr("ry", 8)
+                    .style("filter", d => d.change24h >= 0 ? "url(#greenGlow)" : "url(#redGlow)");
+
+                // Logo circle
+                const logoSize = d.size * sizes.logoScale;
+                group.append("circle")
+                    .attr("class", "currency-logo")
+                    .attr("r", logoSize / 2)
+                    .attr("cx", 0)
+                    .attr("cy", -d.size * 0.15)
+                    .attr("fill", d.logoColor);
+
+                // Symbol text
+                group.append("text")
+                    .attr("class", "square-label")
+                    .attr("dy", d.size * 0.2)
+                    .text(d.symbol)
+                    .style("font-size", `${d.size * sizes.textScale}px`);
+
+                // Percentage change
+                group.append("text")
+                    .attr("class", "percentage-label")
+                    .attr("dy", d.size * 0.4)
+                    .text(d.change24h.toFixed(1) + "%")
+                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                    .style("fill", d => d.change24h >= 0 ? "#22c55e" : "#ef4444");
+            });
+
+            const drag = d3.drag()
+                .on("start", (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                    d3.select(event.sourceEvent.currentTarget).raise();
+                })
+                .on("drag", (event, d) => {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                })
+                .on("end", (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                });
+
+            squareGroups.call(drag);
+
+            simulation.on("tick", () => {
+                squareGroups.attr("transform", d => {
+                    const padding = d.size / 2 + sizes.padding;
+                    d.x = Math.max(padding, Math.min(sizes.width - padding, d.x));
+                    d.y = Math.max(padding, Math.min(sizes.height - padding, d.y));
+                    return `translate(${d.x},${d.y})`;
+                });
+            });
+        }
+
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                sizes = getResponsiveSizes();
+                initializeVisualization();
+            }, 250);
+        });
+
+        initializeVisualization();
+    </script>
+    <!-- <script>
         // Select the SVG and set up viewBox for responsiveness
         const modal = document.getElementById("modal2");
         const modalClose = document.querySelector(".modal-close");
@@ -682,7 +968,7 @@ createSquares();
 // Redraw squares on window resize
 window.addEventListener("resize", createSquares);
 
-    </script>
+    </script> -->
    
     <!-- <script src="assets/js/script.js"></script> -->
     
