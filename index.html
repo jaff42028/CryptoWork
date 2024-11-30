@@ -68,13 +68,24 @@
         }
 
         #chart {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        svg {
             width: 100%;
             height: 100%;
+            display: block;
         }
 
         .square {
             cursor: pointer;
             transition: all 0.2s;
+        }
+        .crypto-logo{
+            cursor: pointer;
         }
 
         .square-border {
@@ -84,10 +95,11 @@
 
         .square-container {
             cursor: move;
+            pointer-events: all;
         }
 
         .square-label, .percentage-label {
-            pointer-events: none;
+            cursor: pointer;
             font-weight: bold;
             text-anchor: middle;
             fill: white;
@@ -99,6 +111,9 @@
         }
 
         @media (max-width: 768px) {
+            ul.nav.nav-pills.justify-content-center{
+                font-size: 11px;
+            }
             .square-label {
                 font-size: 10px !important;
             }
@@ -106,19 +121,370 @@
                 font-size: 9px !important;
             }
         }
+        .details-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .details-panel.visible {
+            display: block;
+        }
+       
+
+.nav-tabs {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+    background: linear-gradient(to right, #242f3b, #1f5839);
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.nav-tabs li a {
+    color: rgba(255, 255, 255, 0.7);
+   text-decoration: none;
+   padding: 8px 16px;
+   border-radius: 6px;
+   font-weight: 600;
+   transition: all 0.2s ease;
+   background: transparent;
+   text-transform: uppercase;
+}
+
+.nav-tabs li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.nav-tabs li a.active {
+    color: #fff;
+   background: rgba(41, 128, 185, 0.8);
+   box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+@media (max-width: 768px) {
+    .nav-tabs li a {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+    
+    .tabs-container {
+        padding: 4px;
+    }
+}
+.search-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    width: 30px;
+    height: 20px;
+    pointer-events: none;
+}
+.search-container {
+    /* position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; */
+    width: 300px;
+}
+
+#searchInput {
+    width: 300px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 20px;
+    /*backdrop-filter: blur(5px);*/
+    transition: all 0.3s ease;
+    padding: 10px 15px 10px 35px; 
+}
+
+#searchInput:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+}
+
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-results {
+    position: absolute;
+    /* top: 100%;
+    left: 0;
+    right: 0; */
+    width:300px;
+    background: rgba(44, 62, 80, 0.95);
+    border-radius: 8px;
+    /* margin-top: 5px; */
+    max-height: 500px;
+    overflow-y: auto;
+    display: none;
+    backdrop-filter: blur(5px);
+    box-sizing: border-box;
+}
+
+.search-result-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-result-item img {
+    width: 24px;
+    height: 24px;
+}
+.grow {
+    flex-grow: 0.5;
+}
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-bar-container {
+    width: 300px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right, #3498db, #2ecc71);
+    transition: width 0.3s ease;
+}
+
+.loading-text {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.loading-percentage {
+    color: #3498db;
+    font-size: 16px;
+}
+.data-updater-line {
+    /* position: fixed;
+    top: 0;
+    left: 0; */
+    width: 100%;
+    height: 2px; /* Thin line */
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.progress-line {
+    width: 100%;
+    height: 100%;
+    /* background: linear-gradient(90deg, 
+        #00ff00 0%,
+        #00ff00 35%,
+        #11ff11 45%,
+        #22ff22 55%,
+        #33ff33 65%,
+        #44ff44 75%
+    ); */
+    /* background: linear-gradient(90deg, 
+        #22c55e 0%,    
+        #16a34a 20%,   
+        #22c55e 40%,  
+        #4ade80 60%,   
+        #22c55e 80%,   
+        #16a34a 100%   
+    ); */
+    background: #22c55e;
+    /* transform-origin: right;
+    transform: scaleX(0);
+    transition: transform 1s linear; */
+    /* animation: gradientMove 2s linear infinite; */
+    transform: translateX(-100%); /* Start from left (hidden) */
+    transition: transform 180s linear; /* 60s for full animation */
+}
+
+@keyframes gradientMove {
+    0% { background-position: 100% 0%; }
+    100% { background-position: -100% 0%; }
+}
+
+
+
+.crypto-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(17, 24, 39, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 300px;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content {
+    color: white;
+}
+
+.popup-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.coin-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    border-radius: 50%;
+}
+
+.coin-info {
+    flex: 1;
+}
+
+.coin-name {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.coin-symbol {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 2px;
+}
+
+.close-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s;
+}
+
+.close-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.popup-details {
+    display: grid;
+    gap: 15px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.detail-label {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+}
+
+.detail-value {
+    font-weight: 500;
+}
+
+.change24h {
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.change24h.positive {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.change24h.negative {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+}
     </style>
 </head>
 <body class="bg-dark">
     <header>
         <nav class="navbar navbar-expand-xl navbar-dark">
             <div class="container-fluid">
-            <a class="navbar-brand" href="javascript:void(0)">Crypto Squares</a>
+                <img height="30" style="margin: 5px;" src="/assets/images/logo2.png" alt="CS" title="Logo of CryptoSquares">
+            <a class="navbar-brand" style="font-size: 35px; padding: 0px;" href="javascript:void(0)">CRYPTO SQUARES</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mynavbar">
+                <div class="grow"></div>
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search cryptocurrency...">
+                </div>
+                    <div class="search-results" id="searchResults"></div>
+                </div>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item me-2">
+                    
+                    <!-- <li class="nav-item me-2">
                       <select class="form-select cryptocurrency" id="cryptocurrency">
                             <option selected value="search">Search Cryptocurrency</option>
                             <option value="bitcoin">Bitcoin</option>
@@ -132,21 +498,21 @@
                             <option value="toincoin">Toincoin</option>
                             <option value="tron">TRON</option>
                         </select>
-                    </li>
+                    </li> -->
                     <li class="nav-item me-2">
-                      <select class="form-select">
+                      <select class="form-select" onchange="changePage(value)">
                             <option disabled>Pages</option>
-                            <option selected value="1-100">1 - 100</option>
-                            <option value="101-200">101 - 200</option>
-                            <option value="201-300">201 - 300</option>
-                            <option value="301-400">301 - 400</option>
-                            <option value="401-500">401 - 500</option>
-                            <option value="501-600">501 - 600</option>
-                            <option value="601-700">601 - 700</option>
-                            <option value="701-800">701 - 800</option>
-                            <option value="801-900">801 - 900</option>
-                            <option value="901-1000">901 - 1000</option>
-                            <option disabled>List</option>
+                            <option selected value=1 >1 - 100</option>
+                            <option value=2 >101 - 200</option>
+                            <option value=3 >201 - 300</option>
+                            <option value="4" >301 - 400</option>
+                            <option value="5" >401 - 500</option>
+                            <option value="6">501 - 600</option>
+                            <option value="7">601 - 700</option>
+                            <option value="8">701 - 800</option>
+                            <option value="9">801 - 900</option>
+                            <option value="10">901 - 1000</option>
+                            <!-- <option disabled>List</option>
                             <option value="favorites">Favorites</option>
                             <option value="watchlist">Watchlist 1</option>
                             <option value="blocklist">Blocklist</option>
@@ -157,7 +523,7 @@
                             <option value="kucoin">Kucoin</option>
                             <option value="gate">Gate.io</option>
                             <option value="okx">OKX</option>
-                            <option value="coinbase">Coinbase</option>
+                            <option value="coinbase">Coinbase</option> -->
                         </select>
                     </li>
                     <li class="nav-item me-2">
@@ -184,36 +550,88 @@
                   </ul>
             </div>
         </div>
+       
         </nav>
     </header>
-    
+    <!-- Add this to your HTML -->
+    <div class="data-updater-line">
+        <div class="progress-line"></div>
+    </div>
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <div class="loading-text">Loading cryptocurrency data...</div>
+            <div class="loading-percentage">0%</div>
+        </div>
+    </div>
+    <div id="details" class="details-panel">
+        <h3 id="details-title"></h3>
+        <div id="details-content"></div>
+    </div>
+
+
+    <div class="overlay" id="overlay"></div>
+    <div class="crypto-popup" id="cryptoPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <img class="coin-logo" src="" alt="coin logo">
+                <div class="coin-info">
+                    <div class="coin-name"></div>
+                    <div class="coin-symbol"></div>
+                </div>
+                <div class="close-button">×</div>
+            </div>
+            <div class="popup-details">
+                <div class="detail-row">
+                    <div class="detail-label">Price</div>
+                    <div class="detail-value price"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">24h Change</div>
+                    <div class="detail-value change24h"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Market Cap</div>
+                    <div class="detail-value market-cap"></div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Volume (24h)</div>
+                    <div class="detail-value volume"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <section class="filter">
-        <div class="container-fluid mt-3">
-            <ul class="nav nav-pills justify-content-center" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="pill" href="#hour">Hour</a>
+        <div class="tabs-container timeframe-controls">
+            <ul class="nav-tabs" role="tablist">
+                <li class="">
+                    <a class="" data-time="1h" data-bs-toggle="pill" href="#" >Hour</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="pill" href="#day">Day</a>
+                <li >
+                    <a class="active" data-time="24h" data-bs-toggle="pill" href="#" >Day</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="pill" href="#week">Week</a>
+                <li>
+                    <a class="" data-time="7d" data-bs-toggle="pill" href="#">Week</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="pill" href="#month">Month</a>
+                <li>
+                    <a class="" data-time="30d" data-bs-toggle="pill" href="#">Month</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="pill" href="#year">Year</a>
+                <li >
+                    <a class="" data-time="365d" data-bs-toggle="pill" href="#year">Year</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="pill" href="#market">Market Cap & Day</a>
+                <li >
+                    <a class="" data-time="mcap" data-bs-toggle="pill" href="#market">Market Cap & Day</a>
                 </li>
             </ul>
             
-            <div class="tab-content mt-3">
-                <div id="hour" class="container-fluid tab-pane active">
-                    <div class="chart-container">
-                        <div id="chart"></div>
+            <div class="tab-content ">
+                <div id="hour" class=" tab-pane active">
+                    <div class="chart-container" id="chart">
+                        
                         <!-- <svg id="chart" class="chart">
                             <filter id="inner-shadow" x="-20%" y="-20%" width="200%" height="200%">
                                 <feComponentTransfer in="SourceAlpha">
@@ -546,214 +964,1686 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     
     <script>
+        let session_timeframe ='24h';
         function getResponsiveSizes() {
-            const width = window.innerWidth *0.95;
-            const height = window.innerHeight * 0.82;
-            const isSmallScreen = width < 768;
-            
-            return {
-                width,
-                height,
-                minSize: isSmallScreen ? 30 : 40,
-                maxSize: isSmallScreen ? 60 : 100,
-                padding: isSmallScreen ? 3 : 5,
-                logoScale: isSmallScreen ? 0.25 : 0.3,
-                textScale: isSmallScreen ? 0.16 : 0.18,
-                collisionStrength: isSmallScreen ? 0.7 : 0.9,
-                chargeStrength: isSmallScreen ? -30 : -50
-            };
-        }
+                let width = window.innerWidth;
+                let height = window.innerHeight * 0.87;
+                const isSmallScreen = width < 768;
+                if (isSmallScreen)
+                    width = window.innerWidth * 0.98;
+                height = window.innerHeight * 0.82;
+                // Different sizes for first page vs other pages
+                return {
+                    width,
+                    height, isSmallScreen,
+                    minSize: isSmallScreen ? 30 : 60, // Bigger minimum for first page
+                    maxSize: isSmallScreen ? 60 : 120, // Bigger maximum for first page
+                    padding: isSmallScreen ? 3 : 5,
+                    logoScale: isSmallScreen ? 0.2 : 0.3,
+                    textScale: isSmallScreen ? 0.12 : 0.18,
+                    collisionStrength: isSmallScreen ? 0.7 : 0.9,
+                    chargeStrength: isSmallScreen ? -30 : -50
+                };
+            }
+        function calculateSquareSize(change24h, screenWidth, change) {
+                const absChange = Math.abs(change24h);
 
-        const data = Array.from({ length: 80 }, (_, i) => ({
-            symbol: `COIN${(i + 1).toString().padStart(2, '0')}`,
-            name: `Coin ${i + 1}`,
-            price: Math.random() * 10000,
-            change24h: Number((Math.random() * 20 - 10).toFixed(2)),
-            marketCap: Math.random() * 1000000000000,
-            logoColor: `hsl(${Math.random() * 360}, 70%, 50%)`
-        }));
+                const maxSize = Math.min(screenWidth, window.innerHeight) * 0.40; // 15% of smaller screen dimension
+                let minSize = maxSize * 0.1; 
+                let size;
+                // For small screens (mobile)
+                if (screenWidth < 768) {
+                    //if (absChange > 200) return 100;        // >200%
+                    //if (absChange > 150) return 90;         // 150-200%
+                    if (absChange > 100) return 100 ;         // 100-150%
+                    //if (absChange > 50) return 70;          // 50-100%
+                    //if (absChange > 30) return 60;          // 30-50%
+                    if (absChange > 20) return 70;          // 20-30%
+                    if (absChange > 10) return 60;          // 10-20%
+                    if (absChange > 5) return 50;           // 5-10%
+                    if (absChange > 3) return 45;           // 3-5%
+                    if (absChange > 2) return 40;           // 1-3%
+                    if (absChange > 1) return 30;           // 1-3%
+                    return 20;                              // 0-1%
+                    
+                }
+                // For medium screens (tablet)
+                else if (screenWidth < 1024) {
+                    if (absChange > 100) return 130;
+                    if (absChange > 20) return 90;
+                    if (absChange > 10) return 70;
+                    if (absChange > 5) return 60;
+                    if (absChange > 3) return 50;
+                    if (absChange > 1) return 30;
+                    return 20;
+                }
+                // For large screens (desktop)
+                else {
+                    if(change == '1h')
+                    {
+                        
+                        if (absChange > 100){size = 0.9 * maxSize; return Math.max(size, minSize);}
+                        if (absChange > 30){ size = (0.75 * maxSize); return Math.max(size, minSize);}
+                        if (absChange > 20){ size = (0.7 * maxSize); return Math.max(size, minSize);}
+                        if (absChange > 10){ size = (0.6 * maxSize); return Math.max(size, minSize);}
+                        if (absChange > 5){ size = (0.5 * maxSize); return Math.max(size, minSize);}
+                        //if (absChange > 4){ size = (0.6 * maxSize); return Math.max(size, minSize);}
+                        //if (absChange > 3){ size = (0.4 * maxSize); return Math.max(size, minSize);}
+                        if (absChange > 2){ size = (0.35 * maxSize); return Math.max(size, minSize);}
+                        if (absChange > 1){ size = (0.3 * maxSize); return Math.max(size, minSize);}
+                        if (absChange > 0.5){ size = (0.25 * maxSize); return Math.max(size, minSize);}
+                        if (absChange < 0.5){ size = minSize;}
+                        return Math.max(size, minSize);
+                    }
+                    if(change == '24h')
+                    {
+                        //if (absChange > 200) return 250;
+                        //if (absChange > 150) return 220;
+                        if (absChange > 100) return 160;
+                        //if (absChange > 50) return 160;
+                        //if (absChange > 30) return 150;
+                        if (absChange > 20) return 120;
+                        if (absChange > 10) return 100;
+                        if (absChange > 5) return 80;
+                        if (absChange > 3) return 60;
+                        if (absChange > 1) return 40;
+                        return 20;
+                    }
+                    if(change == '7d')
+                    {
+                        if (absChange > 1000) return 180;
+                        if (absChange > 900) return 170;
+                        if (absChange > 700) return 160;
+                        if (absChange > 500) return 150;
+                        if (absChange > 400) return 140;
+                        if (absChange > 300) return 130;
+                        if (absChange > 200) return 120;
+                        if (absChange > 100) return 110;
+                        if (absChange > 30) return 90;
+                        if (absChange > 20) return 80;
+                        if (absChange > 10) return 70;
+                        if (absChange > 5) return 50;
+                        return 30;
+                    }
+                    if(change == '30d')
+                    {
+                        if (absChange > 1000) return 180;
+                        if (absChange > 900) return 170;
+                        if (absChange > 700) return 160;
+                        if (absChange > 500) return 150;
+                        if (absChange > 400) return 140;
+                        if (absChange > 300) return 120;
+                        if (absChange > 200) return 110;
+                        if (absChange > 100) return 100;
+                        if (absChange > 30) return 70;
+                        if (absChange > 20) return 60;
+                        if (absChange > 10) return 50;
+                        if (absChange > 5) return 40;
+                        return 20;
+                    }
+                }
+            }
+
+        // const data = Array.from({ length: 80 }, (_, i) => ({
+        //     symbol: `COIN${(i + 1).toString().padStart(2, '0')}`,
+        //     name: `Coin ${i + 1}`,
+        //     price: Math.random() * 10000,
+        //     change24h: Number((Math.random() * 20 - 10).toFixed(2)),
+        //     marketCap: Math.random() * 1000000000000,
+        //     logoColor: `hsl(${Math.random() * 360}, 70%, 50%)`
+        // }));
+//         const data = [
+//     {
+//         id: "bitcoin",
+//         symbol: "BTC",
+//         name: "Bitcoin",
+//         price: 65432.10,
+//         change24h: 2.45,
+//         marketCap: 1278456789012,
+//         volume: 32456789012,
+//         logoUrl: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
+//         high24h: 66000.00,
+//         low24h: 64000.00,
+//         circulatingSupply: 19543212,
+//         totalSupply: 21000000,
+//         ath: 69000,
+//         athChangePercentage: -5.2
+//     },
+//     {
+//         id: "ethereum",
+//         symbol: "ETH",
+//         name: "Ethereum",
+//         price: 3245.67,
+//         change24h: -1.23,
+//         marketCap: 389456789012,
+//         volume: 15678901234,
+//         logoUrl: "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
+//         high24h: 3300.00,
+//         low24h: 3200.00,
+//         circulatingSupply: 120123456,
+//         totalSupply: null,
+//         ath: 4878.26,
+//         athChangePercentage: -33.45
+//     },
+//     {
+//         id: "binancecoin",
+//         symbol: "BNB",
+//         name: "BNB",
+//         price: 456.78,
+//         change24h: 3.21,
+//         marketCap: 75678901234,
+//         volume: 2345678901,
+//         logoUrl: "https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png",
+//         high24h: 460.00,
+//         low24h: 445.00,
+//         circulatingSupply: 165123456,
+//         totalSupply: 165123456,
+//         ath: 686.31,
+//         athChangePercentage: -33.45
+//     },
+//     {
+//         id: "solana",
+//         symbol: "SOL",
+//         name: "Solana",
+//         price: 123.45,
+//         change24h: 5.67,
+//         marketCap: 45678901234,
+//         volume: 3456789012,
+//         logoUrl: "https://assets.coingecko.com/coins/images/4128/large/solana.png",
+//         high24h: 125.00,
+//         low24h: 118.00,
+//         circulatingSupply: 456789012,
+//         totalSupply: 534567890,
+//         ath: 259.96,
+//         athChangePercentage: -52.45
+//     },
+//     {
+//         id: "cardano",
+//         symbol: "ADA",
+//         name: "Cardano",
+//         price: 0.89,
+//         change24h: -2.34,
+//         marketCap: 34567890123,
+//         volume: 1234567890,
+//         logoUrl: "https://assets.coingecko.com/coins/images/975/large/cardano.png",
+//         high24h: 0.92,
+//         low24h: 0.87,
+//         circulatingSupply: 35678901234,
+//         totalSupply: 45000000000,
+//         ath: 3.09,
+//         athChangePercentage: -71.23
+//     },
+//     {
+//         id: "ripple",
+//         symbol: "XRP",
+//         name: "XRP",
+//         price: 1.23,
+//         change24h: 4.56,
+//         marketCap: 23456789012,
+//         volume: 2345678901,
+//         logoUrl: "https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png",
+//         high24h: 1.25,
+//         low24h: 1.18,
+//         circulatingSupply: 45678901234,
+//         totalSupply: 100000000000,
+//         ath: 3.40,
+//         athChangePercentage: -63.82
+//     },
+//     {
+//         id: "polkadot",
+//         symbol: "DOT",
+//         name: "Polkadot",
+//         price: 34.56,
+//         change24h: -1.23,
+//         marketCap: 12345678901,
+//         volume: 987654321,
+//         logoUrl: "https://assets.coingecko.com/coins/images/12171/large/polkadot.png",
+//         high24h: 35.00,
+//         low24h: 33.50,
+//         circulatingSupply: 1234567890,
+//         totalSupply: 1234567890,
+//         ath: 54.98,
+//         athChangePercentage: -37.14
+//     },
+//     {
+//         id: "dogecoin",
+//         symbol: "DOGE",
+//         name: "Dogecoin",
+//         price: 0.123,
+//         change24h: 7.89,
+//         marketCap: 9876543210,
+//         volume: 1234567890,
+//         logoUrl: "https://assets.coingecko.com/coins/images/5/large/dogecoin.png",
+//         high24h: 0.125,
+//         low24h: 0.115,
+//         circulatingSupply: 132678901234,
+//         totalSupply: null,
+//         ath: 0.731578,
+//         athChangePercentage: -83.21
+//     },
+//     {
+//         id: "avalanche",
+//         symbol: "AVAX",
+//         name: "Avalanche",
+//         price: 89.12,
+//         change24h: -3.45,
+//         marketCap: 8765432109,
+//         volume: 876543210,
+//         logoUrl: "https://assets.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png",
+//         high24h: 92.00,
+//         low24h: 87.00,
+//         circulatingSupply: 342789012,
+//         totalSupply: 720000000,
+//         ath: 144.96,
+//         athChangePercentage: -38.52
+//     },
+//     {
+//         id: "chainlink",
+//         symbol: "LINK",
+//         name: "Chainlink",
+//         price: 15.67,
+//         change24h: 2.34,
+//         marketCap: 7654321098,
+//         volume: 765432109,
+//         logoUrl: "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png",
+//         high24h: 16.00,
+//         low24h: 15.20,
+//         circulatingSupply: 545678901,
+//         totalSupply: 1000000000,
+//         ath: 52.70,
+//         athChangePercentage: -70.27
+//     }
+// ]; 
+    //const API_URL = 'http://localhost:3000/api/crypto';
+    const API_URL = 'http://irc-library.org:8030/api/crypto';
+    const CMC_CONFIG = {
+        API_KEY: 'f70899e8-f0df-49d0-8fab-a038220b9f79', // Replace with your API key
+        BASE_URL: 'https://pro-api.coinmarketcap.com/v1',
+        PROXY_URL: API_URL
+    };
+        let data;
+        async function fetchCryptoData(page = 1, limit = 100,timeframe = '1h', sortBy = 'percent') {
+
+                // const PROXY_URL = 'https://api.coingecko.com/api/v3/coins/markets';
+
+                // const API_KEY = 'f70899e8-f0df-49d0-8fab-a038220b9f79'; // Replace with your API key
+                // const CMC_API_URL = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
+
+                // const params = new URLSearchParams({
+                //         vs_currency: 'usd',
+                //         order: 'market_cap_desc',
+                //         per_page: '100',
+                //         page: '1',
+                //         sparkline: 'false'
+                //     });
+                try {
+                    // Example using a proxy server - replace with your proxy URL
+                    const start = (page - 1) * limit + 1;
+                    if(start === NaN)
+                    {
+                        start =1;
+                    }
+                    const response = await fetch(`${API_URL}?start_=${start}&limit=100&timeframe=${timeframe}`);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+
+                    return data.data.map(coin => ({
+                        id: coin.id,
+                        symbol: coin.symbol,
+                        name: coin.name,
+                        price: coin.quote.USD.price,
+                        change24h: coin.quote.USD.percent_change_24h,
+                        change1h: coin.quote.USD.percent_change_1h,
+                        change7d: coin.quote.USD.percent_change_7d,
+                        change30d: coin.quote.USD.percent_change_30d,
+                        change365d: coin.quote.USD.percent_change_90d,
+                        marketCap: coin.quote.USD.market_cap,
+                        volume: coin.quote.USD.volume_24h,
+                        logoUrl: `https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`,
+                        rank: coin.cmc_rank,
+                        circulatingSupply: coin.circulating_supply,
+                        totalSupply: coin.total_supply,
+                        maxSupply: coin.max_supply,
+                        volumeChange24h: coin.quote.USD.volume_change_24h,
+                        marketCapChange24h: coin.quote.USD.market_cap_change_24h
+                    }));
+
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                    return [];
+                }
+            }
+        
+
+         // Initialize visualization with real data
+         async function initializeWithRealData(page = 1, timeframe='24h') {
+
+
+            const loading = new LoadingManager();
+    loading.show();
+
+        // Start loading sequence
+        loading.setProgress(0, 'Initializing...');
+        await delay(500);
+
+        loading.setProgress(40, 'Fetching cryptocurrency data...');
+
+                const realData = await fetchCryptoData(page,100,timeframe);
+
+                if (realData.length === 0) {
+                    alert("Error loading cryptocurrency data. Please try again later.");
+                    return;
+                }
+
+                loading.setProgress(60, 'Processing data...');
+                data = realData;
+
+                // Update the data and reinitialize visualization
+                loading.setProgress(80, 'Preparing visualization...');
+                initializeVisualization(page,timeframe);
+                // Initialize search after data is loaded
+                initializeSearch();
+                loading.setProgress(100, 'Completed');
+
+        // Hide loading screen
+        loading.hide();
+
+        // Start interval after loading is complete
+        //startAutoRefresh();
+            }
 
         let sizes = getResponsiveSizes();
         let simulation;
         let svg;
         let squareGroups;
-
-        function initializeVisualization() {
-            d3.select("#chart").selectAll("*").remove();
-
-            svg = d3.select("#chart")
-                .append("svg")
-                .attr("width", sizes.width)
-                .attr("height", sizes.height);
-
-            // Define filters
-            const defs = svg.append("defs");
-
-            // Create glow filter for green (positive change)
-            const greenGlow = defs.append("filter")
-                .attr("id", "greenGlow")
-                .attr("x", "-50%")
-                .attr("y", "-50%")
-                .attr("width", "200%")
-                .attr("height", "200%");
-
-            greenGlow.append("feGaussianBlur")
-                .attr("stdDeviation", "3")
-                .attr("result", "coloredBlur");
-            greenGlow.append("feFlood")
-                .attr("flood-color", "#22c55e")
-                .attr("flood-opacity", "0.5")
-                .attr("result", "greenColor");
-            greenGlow.append("feComposite")
-                .attr("in", "greenColor")
-                .attr("in2", "coloredBlur")
-                .attr("operator", "in")
-                .attr("result", "greenGlow");
-
-            const feMergeGreen = greenGlow.append("feMerge");
-            feMergeGreen.append("feMergeNode").attr("in", "greenGlow");
-            feMergeGreen.append("feMergeNode").attr("in", "SourceGraphic");
-
-            // Create glow filter for red (negative change)
-            const redGlow = defs.append("filter")
-                .attr("id", "redGlow")
-                .attr("x", "-50%")
-                .attr("y", "-50%")
-                .attr("width", "200%")
-                .attr("height", "200%");
-
-            redGlow.append("feGaussianBlur")
-                .attr("stdDeviation", "3")
-                .attr("result", "coloredBlur");
-            redGlow.append("feFlood")
-                .attr("flood-color", "#ef4444")
-                .attr("flood-opacity", "0.5")
-                .attr("result", "redColor");
-            redGlow.append("feComposite")
-                .attr("in", "redColor")
-                .attr("in2", "coloredBlur")
-                .attr("operator", "in")
-                .attr("result", "redGlow");
-
-            const feMergeRed = redGlow.append("feMerge");
-            feMergeRed.append("feMergeNode").attr("in", "redGlow");
-            feMergeRed.append("feMergeNode").attr("in", "SourceGraphic");
-
-            const sizeScale = d3.scaleSqrt()
-                .domain([d3.min(data, d => d.marketCap), d3.max(data, d => d.marketCap)])
-                .range([sizes.minSize, sizes.maxSize]);
-
-            data.forEach((d, i) => {
-                const radius = Math.min(sizes.width, sizes.height) * 0.45;
-                const theta = i * 2 * Math.PI / (1 + Math.sqrt(5));
-                const r = radius * Math.sqrt(i / data.length);
-                
-                d.x = sizes.width/2 + r * Math.cos(theta);
-                d.y = sizes.height/2 + r * Math.sin(theta);
-                d.size = sizeScale(d.marketCap);
-            });
-
-            simulation = d3.forceSimulation(data)
-                .alphaDecay(0.02)
-                .alphaMin(0.001)
-                .velocityDecay(0.4)
-                .force("charge", d3.forceManyBody()
-                    .strength(sizes.chargeStrength)
-                    .distanceMax(Math.min(sizes.width, sizes.height) * 0.4))
-                .force("collide", d3.forceCollide()
-                    .radius(d => d.size * 0.7)
-                    .strength(sizes.collisionStrength)
-                    .iterations(3))
-                .force("x", d3.forceX(sizes.width / 2).strength(0.05))
-                .force("y", d3.forceY(sizes.height / 2).strength(0.05));
-
-            squareGroups = svg.selectAll("g")
-                .data(data)
-                .enter()
-                .append("g")
-                .attr("class", "square-container");
-
-            squareGroups.each(function(d) {
-                const group = d3.select(this);
-
-                // Background square with transparent fill and glowing border
-                group.append("rect")
-                    .attr("class", "square")
-                    .attr("width", d.size)
-                    .attr("height", d.size)
-                    .attr("x", -d.size / 2)
-                    .attr("y", -d.size / 2)
-                    .style("fill", "rgba(0, 0, 0, 0.2)")
-                    .style("stroke", d => d.change24h >= 0 ? "#22c55e" : "#ef4444")
-                    .style("stroke-width", "2")
-                    // .attr("rx", 8)
-                    // .attr("ry", 8)
-                    .style("filter", d => d.change24h >= 0 ? "url(#greenGlow)" : "url(#redGlow)");
-
-                // Logo circle
-                const logoSize = d.size * sizes.logoScale;
-                group.append("circle")
-                    .attr("class", "currency-logo")
-                    .attr("r", logoSize / 2)
-                    .attr("cx", 0)
-                    .attr("cy", -d.size * 0.15)
-                    .attr("fill", d.logoColor);
-
-                // Symbol text
-                group.append("text")
-                    .attr("class", "square-label")
-                    .attr("dy", d.size * 0.2)
-                    .text(d.symbol)
-                    .style("font-size", `${d.size * sizes.textScale}px`);
-
-                // Percentage change
-                group.append("text")
-                    .attr("class", "percentage-label")
-                    .attr("dy", d.size * 0.4)
-                    .text(d.change24h.toFixed(1) + "%")
-                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
-                    .style("fill", d => d.change24h >= 0 ? "#22c55e" : "#ef4444");
-            });
-
-            const drag = d3.drag()
-                .on("start", (event, d) => {
-                    if (!event.active) simulation.alphaTarget(0.3).restart();
-                    d.fx = d.x;
-                    d.fy = d.y;
-                    d3.select(event.sourceEvent.currentTarget).raise();
-                })
-                .on("drag", (event, d) => {
-                    d.fx = event.x;
-                    d.fy = event.y;
-                })
-                .on("end", (event, d) => {
-                    if (!event.active) simulation.alphaTarget(0);
-                    d.fx = null;
-                    d.fy = null;
-                });
-
-            squareGroups.call(drag);
-
-            simulation.on("tick", () => {
-                squareGroups.attr("transform", d => {
-                    const padding = d.size / 2 + sizes.padding;
-                    d.x = Math.max(padding, Math.min(sizes.width - padding, d.x));
-                    d.y = Math.max(padding, Math.min(sizes.height - padding, d.y));
-                    return `translate(${d.x},${d.y})`;
-                });
-            });
+        let stroke;
+        
+        function getChangeForTimeframe(coin, timeframe) {
+            switch(timeframe) {
+                case '1h':
+                    return coin.quote.USD.percent_change_1h;
+                case '7d':
+                    return coin.quote.USD.percent_change_7d;
+                case '30d':
+                    return coin.quote.USD.percent_change_30d;
+                case '365d':
+                    return coin.quote.USD.percent_change_90d;
+                    case 'mcap' :
+                        return coin.quote.USD.marketCapChange24h;
+                default:
+                    return coin.quote.USD.percent_change_24h;
+            }
         }
+
+         
+        function initializeVisualization(page, timeframe) {
+
+            session_timeframe = timeframe;
+            var change ;
+                sizes = getResponsiveSizes();
+                // Sort data by rank for consistency
+                // data.sort((a, b) => a.rank - b.rank);
+
+                d3.select("#chart").selectAll("*").remove();
+
+                svg = d3.select("#chart")
+                    .append("svg")
+                    .attr("width", sizes.width)
+                    .attr("height", sizes.height);
+
+                // Define filters
+                const defs = svg.append("defs");
+
+                // Create glow filter for green (positive change)
+                const greenGlow = defs.append("filter")
+                    .attr("id", "greenGlow")
+                    .attr("x", "-50%")
+                    .attr("y", "-50%")
+                    .attr("width", "200%")
+                    .attr("height", "200%");
+
+                greenGlow.append("feGaussianBlur")
+                    .attr("stdDeviation", "3")
+                    .attr("result", "coloredBlur");
+                greenGlow.append("feFlood")
+                    .attr("flood-color", "#22c55e")
+                    .attr("flood-opacity", "0.5")
+                    .attr("result", "greenColor");
+                greenGlow.append("feComposite")
+                    .attr("in", "greenColor")
+                    .attr("in2", "coloredBlur")
+                    .attr("operator", "in")
+                    .attr("result", "greenGlow");
+
+                const feMergeGreen = greenGlow.append("feMerge");
+                feMergeGreen.append("feMergeNode").attr("in", "greenGlow");
+                feMergeGreen.append("feMergeNode").attr("in", "SourceGraphic");
+
+                // Create glow filter for red (negative change)
+                const redGlow = defs.append("filter")
+                    .attr("id", "redGlow")
+                    .attr("x", "-50%")
+                    .attr("y", "-50%")
+                    .attr("width", "200%")
+                    .attr("height", "200%");
+
+                redGlow.append("feGaussianBlur")
+                    .attr("stdDeviation", "3")
+                    .attr("result", "coloredBlur");
+                redGlow.append("feFlood")
+                    .attr("flood-color", "#ef4444")
+                    .attr("flood-opacity", "0.5")
+                    .attr("result", "redColor");
+                redGlow.append("feComposite")
+                    .attr("in", "redColor")
+                    .attr("in2", "coloredBlur")
+                    .attr("operator", "in")
+                    .attr("result", "redGlow");
+
+                const feMergeRed = redGlow.append("feMerge");
+                feMergeRed.append("feMergeNode").attr("in", "redGlow");
+                feMergeRed.append("feMergeNode").attr("in", "SourceGraphic");
+
+                // const sizeScale = d3.scaleSqrt()
+                //     .domain([d3.min(data, d => d.marketCap), d3.max(data, d => d.marketCap)])
+                //     .range([sizes.minSize, sizes.maxSize]);
+                //         const sizeScale = d3.scaleSqrt()
+                // .domain([d3.min(data, d => d.marketCap), d3.max(data, d => d.marketCap)])
+                // .range(page === 1 ? 
+                //     [70, 140] :  // First page larger sizes
+                //     [40, 100]     // Other pages smaller sizes
+                // );
+
+
+
+
+                // data.forEach((d, i) => {
+                //     const radius = Math.min(sizes.width, sizes.height) * 0.45;
+                //     const theta = i * 2 * Math.PI / (1 + Math.sqrt(6));
+                //     const r = radius * Math.sqrt(i / data.length);
+
+                //     d.x = sizes.width / 2 + r * Math.cos(theta);
+                //     d.y = sizes.height / 2 + r * Math.sin(theta);
+
+                //     // const phi = (1 + Math.sqrt(5)) / 2;
+                //     // const angle = i * 2 * Math.PI * phi;
+                //     // const radius = Math.sqrt(i / data.length) * Math.min(sizes.width, sizes.height) * 0.45;
+
+                //     // d.x = sizes.width / 2 + radius * Math.cos(angle);
+                //     // d.y = sizes.height / 2 + radius * Math.sin(angle);
+                //     //d.size = sizeScale(d.marketCap);
+
+                //     change = d.change1h; // Using the current timeframe's change
+
+                //    // const absChange = Math.abs(change);
+                //    if(timeframe == '1h'){
+                //     change = d.change1h;
+                //    }
+                //    if(timeframe == '24h'){
+                //     change = d.change24h;
+                //    }
+                //    if(timeframe == '7d'){
+                //     change = d.change7d;
+                //    }
+                //    if(timeframe == '30d'){
+                //     change = d.change30d;
+                //    }
+
+                //     const absChange = Math.abs(change); //Math.abs(getChangePercent(d, timeframe));//
+
+                //     d.size = calculateSquareSize(absChange, window.innerWidth , timeframe);
+
+
+                //     // if(sizes.isSmallScreen)
+                //     // {
+                //     //     stroke =1;
+                //     //     if (absChange > 200) {
+                //     //         d.size = 160;  // Very high change (>20%)
+                //     //     } else if (absChange > 150) {
+                //     //         d.size = 150;  // Very high change (>20%)
+                //     //     } else if (absChange > 100) {
+                //     //         d.size = 120;  // Very high change (>20%)
+                //     //     } else if (absChange > 50) {
+                //     //         d.size = 100;  // Very high change (>20%)
+                //     //     } else if (absChange > 30) {
+                //     //         d.size = 100;  // Very high change (>20%)
+                //     //     } else if (absChange > 20) {
+                //     //         d.size = 90;  // Very high change (>20%)
+                //     //     } else if (absChange > 10) {
+                //     //         d.size = 80;  // Medium change (10-15%)
+                //     //     } else if (absChange > 5) {
+                //     //         d.size = 60;  // Low change (5-10%)
+                //     //     } else if (absChange > 3) {
+                //     //         d.size = 50;  // Very low change (<5%)
+                //     //     } else if (absChange > 1) {
+                //     //         d.size = 30;  // Very low change (<5%)
+                //     //     } else if (absChange > 0) {
+                //     //         d.size = 10;  // Very low change (<5%)
+                //     //     }
+                //     // }
+                //     // else{
+                //     //     stroke =3;
+
+                //     //     if (absChange > 200) {
+                //     //         d.size = 250;  // Very high change (>20%)
+                //     //     }else if (absChange > 150) {
+                //     //         d.size = 220;  // Very high change (>20%)
+                //     //     }else if (absChange > 100) {
+                //     //         d.size = 180;  // Very high change (>20%)
+                //     //     }else if (absChange > 50) {
+                //     //         d.size = 160;  // Very high change (>20%)
+                //     //     }else if (absChange > 30) {
+                //     //         d.size = 150;  // Very high change (>20%)
+                //     //     }else if (absChange > 20) {
+                //     //         d.size = 120;  // Very high change (>20%)
+                //     //     } else if (absChange > 10) {
+                //     //         d.size = 100;  // Medium change (10-15%)
+                //     //     } else if (absChange > 5) {
+                //     //         d.size = 80;  // Low change (5-10%)
+                //     //     } else if (absChange > 3){
+                //     //         d.size = 60;  // Very low change (<5%)
+                //     //     } else if (absChange > 1){
+                //     //         d.size = 30;  // Very low change (<5%)
+                //     //     }else if (absChange > 0){
+                //     //         d.size = 20;  // Very low change (<5%)
+                //     //     }
+                //     // }
+                //     //     
+                // });
+
+                const width = window.innerWidth;
+   const height = window.innerHeight;
+                // Function to detect overlaps
+   function hasOverlap(positions) {
+       for(let i = 0; i < positions.length; i++) {
+           for(let j = i + 1; j < positions.length; j++) {
+               const dx = positions[i].x - positions[j].x;
+               const dy = positions[i].y - positions[j].y;
+               const distance = Math.sqrt(dx * dx + dy * dy);
+               const minDistance = (positions[i].size + positions[j].size) / 1.5;
+               if(distance < minDistance) return true;
+           }
+       }
+       return false;
+   }
+
+   // Function to calculate sizes
+   function calculateSizes(reductionFactor = 1,timeframe) {
+       return data.map(d => {
+        let change = Math.abs(d.change1h);
+        let maxSize = Math.min( width, height) * 0.40 * reductionFactor;
+        let size;
+
+        if (timeframe == '1h') {
+               change = Math.abs(d.change1h);
+               if (width < 768) {
+               if (change > 200) size = 120 * reductionFactor;
+               else if (change > 100) size = 100 * reductionFactor;
+               else if (change > 30) size = 80 * reductionFactor;
+               else if (change > 20) size = 70 * reductionFactor;
+               else if (change > 5) size = 65 * reductionFactor;
+               else if (change > 3) size = 60 * reductionFactor;
+               else if (change > 2) size = 55 * reductionFactor;
+               else if (change > 1.5) size = 50 * reductionFactor;
+               else if (change > 1) size = 45 * reductionFactor;
+               else if (change > 0.5) size = 40 * reductionFactor;
+               else size = 30 * reductionFactor;
+           } else {
+               if (change > 200) size = maxSize;
+               else if (change > 100) size = maxSize * 0.8;
+               else if (change > 30) size = maxSize * 0.7;
+               else if (change > 20) size = maxSize * 0.65;
+               else if (change > 10) size = maxSize * 0.6;
+               else if (change > 5) size = maxSize * 0.5;
+               else if (change > 3) size = maxSize * 0.45;
+               else if (change > 2.5) size = maxSize * 0.4;
+               else if (change > 2) size = maxSize * 0.35;
+               else if (change > 1.5) size = maxSize * 0.3;
+               else if (change > 1) size = maxSize * 0.25;
+               else if (change > 0.5) size = maxSize * 0.2;
+               else size = maxSize* 0.1;
+           }
+        }
+        if (timeframe == '24h') {
+               change = Math.abs(d.change24h);
+               maxSize = Math.min( width, height) * 0.35 * reductionFactor;
+
+               if (width < 768) {
+                    if (change > 200) size = 100 * reductionFactor;
+                    else if (change > 100) size = 80 * reductionFactor;
+                    else if (change > 30) size = 60 * reductionFactor;
+                    else if (change > 20) size = 50 * reductionFactor;
+                    else if (change > 10) size = 50 * reductionFactor;
+                    else if (change > 5) size = 45 * reductionFactor;
+                    else if (change > 3) size = 40 * reductionFactor;
+                    else if (change > 1) size = 30 * reductionFactor;
+                    else size = 20 * reductionFactor;
+                } else {
+                    if (change > 500) size = maxSize;
+                    else if (change > 400) size = maxSize * 0.8;
+                    else if (change > 200) size = maxSize * 0.75;
+                    else if (change > 100) size = maxSize * 0.7;
+                    else if (change > 30) size = maxSize * 0.65;
+                    else if (change > 20) size = maxSize * 0.6;
+                    else if (change > 10) size = maxSize * 0.5;
+                    else if (change > 5) size = maxSize * 0.35;
+                    else if (change > 3) size = maxSize * 0.3;
+                    else if (change > 2) size = maxSize * 0.25;
+                    else if (change > 1) size = maxSize * 0.2;
+                    else size = maxSize* 0.08;
+           }
+           }
+        if (timeframe == '7d') {
+            change = Math.abs(d.change7d);
+               maxSize = Math.min( width, height) * 0.20 * reductionFactor;
+
+               if (width < 768) {
+                if (change > 500) size = 100 * reductionFactor;
+                    else if (change > 300) size = 90 * reductionFactor;
+                    else if (change > 200) size = 85 * reductionFactor;
+                    else if (change > 100) size = 80 * reductionFactor;
+                    else if (change > 30) size = 60 * reductionFactor;
+                    else if (change > 20) size = 50 * reductionFactor;
+                    else if (change > 10) size = 45 * reductionFactor;
+                    else if (change > 5) size = 40 * reductionFactor;
+                    else size = 15 * reductionFactor;
+                } else {
+                    if (change > 500) size = maxSize;
+                    else if (change > 400) size = maxSize * 0.8;
+                    else if (change > 200) size = maxSize * 0.75;
+                    else if (change > 100) size = maxSize * 0.75;
+                    else if (change > 50) size = maxSize * 0.7;
+                    else if (change > 30) size = maxSize * 0.6;
+                    else if (change > 20) size = maxSize * 0.5;
+                    else if (change > 10) size = maxSize * 0.4;
+                    else if (change > 5) size = maxSize * 0.3;
+                    //else if (change > 3) size = maxSize * 0.3;
+                    //else if (change > 2) size = maxSize * 0.25;
+                    //else if (change > 1) size = maxSize * 0.2;
+                    else size = maxSize* 0.08;
+           }
+           }
+           if (timeframe == '30d') {
+            change = Math.abs(d.change30d);
+               maxSize = Math.min( width, height) * 0.15 * reductionFactor;
+
+               if (width < 768) {
+                
+                 if (change > 500) size = 100 * reductionFactor;
+                    else if (change > 300) size = 90 * reductionFactor;
+                    else if (change > 200) size = 70 * reductionFactor;
+                    else if (change > 100) size = 60 * reductionFactor;
+                    else if (change > 50) size = 50 * reductionFactor;
+                    else if (change > 40) size = 40 * reductionFactor;
+                    //else if (change > 10) size = 45 * reductionFactor;
+                   // else if (change > 5) size = 40 * reductionFactor;
+                    else size = 20 * reductionFactor;
+                } else {
+                    if (change > 1000) size = maxSize;
+                    else if (change > 500) size = maxSize * 0.82;
+                    else if (change > 400) size = maxSize * 0.8;
+                    else if (change > 200) size = maxSize * 0.75;
+                    else if (change > 100) size = maxSize * 0.75;
+                    else if (change > 50) size = maxSize * 0.7;
+                    else if (change > 30) size = maxSize * 0.6;
+                    else if (change > 20) size = maxSize * 0.6;
+                    else if (change > 10) size = maxSize * 0.5;
+                    else if (change > 5) size = maxSize * 0.4;
+                    //else if (change > 3) size = maxSize * 0.3;
+                    //else if (change > 2) size = maxSize * 0.25;
+                    //else if (change > 1) size = maxSize * 0.2;
+                    else size = maxSize* 0.08;
+           }
+           }
+           if (timeframe == '365d') {
+            change = Math.abs(d.change365d);
+               maxSize = Math.min( width, height) * 0.20 * reductionFactor;
+
+               if (width < 768) {
+                if (change > 1000) size = 100 * reductionFactor;
+                else if (change > 500) size = 90 * reductionFactor;
+                    else if (change > 300) size = 80 * reductionFactor;
+                    else if (change > 200) size = 70 * reductionFactor;
+                    else if (change > 100) size = 60 * reductionFactor;
+                    else if (change > 50) size = 50 * reductionFactor;
+                    else if (change > 40) size = 40 * reductionFactor;
+                    //else if (change > 10) size = 30 * reductionFactor;
+                    //else if (change > 5) size = 20 * reductionFactor;
+                    else size = 20 * reductionFactor;
+                } else {
+                    if (change > 1000) size = maxSize;
+                    else if (change > 500) size = maxSize*0.9;
+                    else if (change > 400) size = maxSize * 0.8;
+                    else if (change > 200) size = maxSize * 0.75;
+                    else if (change > 100) size = maxSize * 0.7;
+                    else if (change > 50) size = maxSize * 0.6
+                    else if (change > 30) size = maxSize * 0.5;
+                    else if (change > 20) size = maxSize * 0.4;
+                    else if (change > 10) size = maxSize * 0.3;
+                    else if (change > 5) size = maxSize * 0.2;
+                    //else if (change > 3) size = maxSize * 0.3;
+                    //else if (change > 2) size = maxSize * 0.25;
+                    //else if (change > 1) size = maxSize * 0.2;
+                    else size = maxSize* 0.08;
+           }
+           }
+           if (timeframe == 'mcap') {
+            const marketCapSize = Math.log10(d.marketCapChange24h);
+               maxSize = Math.min( width, height) * 0.20 * reductionFactor;
+
+               if(window.innerWidth < 768) {
+                        if(marketCapSize > 11) d.size = 120;
+                        else if(marketCapSize > 10) d.size = 100;
+                        else if(marketCapSize > 9) d.size = 80;
+                        else if(marketCapSize > 8) d.size = 60;
+                        else d.size = 40;
+                    } else {
+                        if(marketCapSize > 11) d.size = 250;
+                        else if(marketCapSize > 10) d.size = 200;
+                        else if(marketCapSize > 9) d.size = 150;
+                        else if(marketCapSize > 8) d.size = 100;
+                        else d.size = 50;
+                    }
+           }
+
+           return {
+               ...d,
+               size: size
+           };
+       });
+   }
+
+   // Initialize with positions and check for overlaps
+   let reductionFactor = 1;
+   let currentData = calculateSizes(reductionFactor,timeframe);
+   let iterations = 0;
+   const maxIterations = 10;
+
+   while (hasOverlap(currentData) && iterations < maxIterations) {
+       reductionFactor *= 0.9; // Reduce sizes by 10% each iteration
+       currentData = calculateSizes(reductionFactor);
+       iterations++;
+   }
+
+   data = currentData;
+
+//    simulation = d3.forceSimulation(data)
+//                     .alphaDecay(0.01)
+//                     .alphaMin(0.001)
+//                     .velocityDecay(0.5)
+//        .force("charge", d3.forceManyBody().strength(d => -d.size * 2))
+//        .force("collide", d3.forceCollide().radius(d => d.size * 0.7).strength(1))
+//        .force("x", d3.forceX(width / 2).strength(0.05))
+//        .force("y", d3.forceY(height / 2).strength(0.05));
+                simulation = d3.forceSimulation(data)
+                    .alphaDecay(0.01)
+                    .alphaMin(0.001)
+                    .velocityDecay(0.4)
+                    .force("charge", d3.forceManyBody()
+                        .strength(d => -Math.pow(d.size, 1.2))
+                        .distanceMax(Math.min(sizes.width, sizes.height) * 0.8))
+                    .force("collide", d3.forceCollide()
+                        .radius(d => d.size * 0.7)
+                        .strength(0.2)
+                        .iterations(5))
+                    //.force("x", d3.forceX(sizes.width / 2).strength(0.03))
+                    //.force("y", d3.forceY(sizes.height / 2).strength(0.03));
+                    .force("x", d3.forceX().x(d => {
+                        // Spread across multiple columns
+                        const columns = 8;
+                        const section = Math.floor(Math.random() * columns);
+                        return (sizes.width * (section + 0.5) / columns);
+                    }).strength(0.05))
+                    .force("y", d3.forceY().y(d => {
+                        // Spread across multiple rows
+                        const rows = 5;
+                        const section = Math.floor(Math.random() * rows);
+                        return (sizes.height * (section + 0.5) / rows);
+                    }).strength(0.05));
+
+                    const cryptoPopup = new CryptoPopup();
+                squareGroups = svg.selectAll("g")
+                    .data(data)
+                    .enter()
+                    .append("g")
+                    .attr("class", "square-container");
+                    
+
+                squareGroups.each(function (d) {
+                    const group = d3.select(this);
+
+                    
+                    if(timeframe == '1h'){
+                    change = d.change1h;
+                   }
+                   if(timeframe == '24h'){
+                    change = d.change24h;
+                   }
+                   if(timeframe == '7d'){
+                    change = d.change7d;
+                   }
+                   if(timeframe == '30d'){
+                    change = d.change30d;
+                   }
+                   if(timeframe == '365d'){
+                    change = d.change365d;
+                   }
+                   if(timeframe == 'mcap'){
+                    change = d.marketCapChange24h;
+                   }
+
+                    // Background square with transparent fill and glowing border
+                    group.append("rect")
+                        .attr("class", "square")
+                        .attr("width", d.size)
+                        .attr("height", d.size)
+                        .attr("x", -d.size / 2)
+                        .attr("y", -d.size / 2)
+                        .style("fill", "rgba(0, 0, 0, 0.2)")
+                        .style("stroke", change >= 0 ? "#22c55e" : "#ef4444")
+                        .style("stroke-width", stroke)
+                        // .attr("rx", 8)
+                        // .attr("ry", 8)
+                        .style("filter", change >= 0 ? "url(#greenGlow)" : "url(#redGlow)")
+                        .style("transition", "all 0.2s ease")
+                        .on("click", function(event) {
+                            event.stopPropagation();
+                            cryptoPopup.show(d);
+                        })
+                        // .on("click", showDetails)
+                        .on("mouseover", function () {
+                            d3.select(this)
+                                .style("stroke", "white")
+                                .style("stroke-width", "4")
+                                .style("filter", "url(#whiteGlow)");
+                        })
+                        .on("mouseout", function (event, d) {
+                            d3.select(this)
+                                .style("stroke", change >= 0 ? "#22c55e" : "#ef4444")
+                                .style("stroke-width", "3")
+                                .style("filter", change >= 0 ? "url(#greenGlow)" : "url(#redGlow)");
+                        });
+
+                    // Logo circle
+                    //const logoSize = d.size * sizes.logoScale;
+                    // group.append("circle")
+                    //     .attr("class", "currency-logo")
+                    //     .attr("r", logoSize / 2)
+                    //     .attr("cx", 0)
+                    //     .attr("cy", -d.size * 0.15)
+                    //     .attr("fill", d.logoColor);
+
+                    let logoSize = Math.abs(change) > 1 ? d.size * 0.3 : d.size * 0.6; // Adjust size as needed
+
+                    if (sizes.isSmallScreen) {
+                        stroke = 2;
+                        logoSize = Math.abs(change) > 5 ? d.size * 0.3 : d.size * 0.6;
+                    }
+                    else {
+                        stroke = 3;
+                    }
+
+                    if(timeframe == '1h'){
+                        logoSize = Math.abs(change) > 1 ? d.size * 0.3 : d.size * 0.4;
+                    }
+
+                    // Method 1: Using image element
+                    group.append("image")
+                        .attr("class", "crypto-logo")
+                        .attr("x", -logoSize / 2)
+                        .attr("y", -d.size * 0.25)
+                        .attr("width", logoSize)
+                        .attr("height", logoSize)
+                        .attr("href", d.logoUrl);
+
+                        const displayValue = d => {
+            if (d.marketCap) return `$${(d.marketCap / 1e9).toFixed(1)}B`;
+            if (d.volume) return `$${(d.volume / 1e9).toFixed(1)}B`;
+            return '';
+        };
+
+                    if (sizes.isSmallScreen) {
+                        if (Math.abs(change) > 0.5) {
+                            // Symbol text
+                            if(timeframe == '24h' || timeframe == '7d'  ){
+                                if (Math.abs(change) > 5) {
+                                group.append("text")
+                                    .attr("class", "square-label")
+                                    .attr("dy", d.size * 0.2)
+                                    .text(d.symbol)
+                                    .style("font-size", `${d.size * sizes.textScale}px`);
+
+                                // Percentage change
+                                group.append("text")
+                                    .attr("class", "percentage-label")
+                                    .attr("dy", d.size * 0.4)
+                                    .text(change.toFixed(1) + "%")
+                                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                    .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                                }
+                            }
+                            else  if(timeframe == '30d'|| timeframe == '365d'){
+                                if (Math.abs(change) > 40) {
+                                group.append("text")
+                                    .attr("class", "square-label")
+                                    .attr("dy", d.size * 0.2)
+                                    .text(d.symbol)
+                                    .style("font-size", `${d.size * sizes.textScale}px`);
+
+                                // Percentage change
+                                group.append("text")
+                                    .attr("class", "percentage-label")
+                                    .attr("dy", d.size * 0.4)
+                                    .text(change.toFixed(1) + "%")
+                                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                    .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                                }
+                            }
+                            else{
+                            group.append("text")
+                                .attr("class", "square-label")
+                                .attr("dy", d.size * 0.2)
+                                .text(d.symbol)
+                                .style("font-size", `${d.size * sizes.textScale}px`);
+
+                            // Percentage change
+                            group.append("text")
+                                .attr("class", "percentage-label")
+                                .attr("dy", d.size * 0.4)
+                                .text(change.toFixed(1) + "%")
+                                .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                                }
+                        }
+                    }
+                    else {
+                        if (timeframe == '1h') {
+                            if (Math.abs(change) > 0.5) {
+                                group.append("text")
+                                    .attr("class", "square-label")
+                                    .attr("dy", d.size * 0.2)
+                                    .text(d.symbol)
+                                    .style("font-size", `${d.size * sizes.textScale}px`);
+
+                                // Percentage change
+                                group.append("text")
+                                    .attr("class", "percentage-label")
+                                    .attr("dy", d.size * 0.4)
+                                    .text(change.toFixed(1) + "%")
+                                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                    .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                            }
+                        }
+                        else if (timeframe == '7d' || timeframe == '30d') {
+                            if (Math.abs(change) > 5) {
+                                group.append("text")
+                                    .attr("class", "square-label")
+                                    .attr("dy", d.size * 0.2)
+                                    .text(d.symbol)
+                                    .style("font-size", `${d.size * sizes.textScale}px`);
+
+                                // Percentage change
+                                group.append("text")
+                                    .attr("class", "percentage-label")
+                                    .attr("dy", d.size * 0.4)
+                                    .text(change.toFixed(1) + "%")
+                                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                    .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                            }
+                        }
+                        else if (timeframe == '365d') {
+                            if (Math.abs(change) > 0.5) {
+                                group.append("text")
+                                    .attr("class", "square-label")
+                                    .attr("dy", d.size * 0.2)
+                                    .text(d.symbol)
+                                    .style("font-size", `${d.size * sizes.textScale}px`);
+
+                                // Percentage change
+                                group.append("text")
+                                    .attr("class", "percentage-label")
+                                    .attr("dy", d.size * 0.4)
+                                    .text(change.toFixed(1) + "%")
+                                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                    .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                            }
+                        }
+                        else if (timeframe == 'mcap') {
+                            group.append("text")
+                                .attr("class", "square-label")
+                                .attr("dy", d.size * 0.2)
+                                .attr("text-anchor", "middle")
+                                .text(d.symbol)
+                                .style("font-size", `${d.size * 0.18}px`);
+
+                            group.append("text")
+                                .attr("class", "percentage-label")
+                                .attr("dy", d.size * 0.4)
+                                .attr("text-anchor", "middle")
+                                .text(displayValue(d))
+                                .style("font-size", `${d.size * 0.16}px`)
+                                .style("fill", "#ffffff");
+                        }
+                        else {// (Math.abs(change) > 1) {
+                            // Symbol text
+                            group.append("text")
+                                .attr("class", "square-label")
+                                .attr("dy", d.size * 0.2)
+                                .text(d.symbol)
+                                .style("font-size", `${d.size * sizes.textScale}px`);
+
+                            // Percentage change
+                            group.append("text")
+                                .attr("class", "percentage-label")
+                                .attr("dy", d.size * 0.4)
+                                .text(change.toFixed(1) + "%")
+                                .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                        }
+                    }
+                });
+
+                const drag = d3.drag()
+                    .on("start", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0.3).restart();
+                        d.fx = d.x;
+                        d.fy = d.y;
+                        d3.select(event.sourceEvent.currentTarget).raise();
+                    })
+                    .on("drag", (event, d) => {
+                        d.fx = event.x;
+                        d.fy = event.y;
+                    })
+                    .on("end", (event, d) => {
+                        if (!event.active) simulation.alphaTarget(0);
+                        d.fx = null;
+                        d.fy = null;
+                    });
+
+                squareGroups.call(drag);
+
+                simulation.on("tick", () => {
+                    squareGroups.attr("transform", d => {
+                        const padding = d.size / 2 + sizes.padding;
+                        d.x = Math.max(padding * 2, Math.min(sizes.width - padding, d.x));
+                        d.y = Math.max(padding * 2, Math.min(sizes.height - padding, d.y));
+                        return `translate(${d.x},${d.y})`;
+                    });
+                });
+
+                 // Show details panel
+        // function showDetails(event, d) {
+        //     const details = d3.select("#details");
+        //     const title = d3.select("#details-title");
+        //     const content = d3.select("#details-content");
+
+        //     title.html(`${d.name} (${d.symbol})`);
+        //     content.html(`
+        //         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        //             <div>
+        //                 <div style="color: #999;">Price</div>
+        //                 <div style="font-weight: bold;">$${d.price.toLocaleString()}</div>
+        //             </div>
+        //             <div>
+        //                 <div style="color: #999;">24h Change</div>
+        //                 <div style="font-weight: bold; color: ${d.change24h >= 0 ? '#22c55e' : '#ef4444'}">
+        //                     ${d.change24h}%
+        //                 </div>
+        //             </div>
+        //             <div>
+        //                 <div style="color: #999;">Market Cap</div>
+        //                 <div style="font-weight: bold;">${formatNumber(d.marketCap)}</div>
+        //             </div>
+        //         </div>
+        //     `);
+
+        //     details.classed("visible", true);
+        // }
+        //     //     squareGroups.on("click", function (event, d) {
+            //         const details = d3.select("#details");
+            //         const title = d3.select("#details-title");
+            //         const content = d3.select("#details-content");
+
+            //     //     if(timeframe == '1h'){
+            //     //     change = d.change1h;
+            //     //    }
+            //     //    if(timeframe == '24h'){
+            //     //     change = d.change24h;
+            //     //    }
+            //     //    if(timeframe == '7d'){
+            //     //     change = d.change7d;
+            //     //    }
+            //     //    if(timeframe == '30d'){
+            //     //     change = d.change30d;
+            //     //    }
+            //     //    if(timeframe == '365d'){
+            //     //     change = d.change365d;
+            //     //    }
+            //     //    if(timeframe == 'mcap'){
+            //     //     change = d.marketCap;
+            //     //    }
+
+            //         title.html(`${d.name} (${d.symbol})`);
+            //         content.html(`
+            //     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            //         <div>
+            //             <div style="color: #999;">Price</div>
+            //             <div style="font-weight: bold;">$${d.price.toLocaleString()}</div>
+            //         </div>
+            //         <div>
+            //             <div style="color: #999;">24h Change</div>
+            //             <div style="font-weight: bold; color: ${change >= 0 ? '#22c55e' : '#ef4444'}">
+            //                 ${change}%
+            //             </div>
+            //         </div>
+            //         <div>
+            //             <div style="color: #999;">Market Cap</div>
+            //             <div style="font-weight: bold;">${formatNumber(d.marketCap)}</div>
+            //         </div>
+            //     </div>
+            // `);
+
+            //         details.classed("visible", true);
+            //     });
+
+                // Hide details panel when clicking outside bubbles
+                svg.on("click", function (event) {
+                    if (event.target.tagName === "svg") {
+                        d3.select("#details").classed("visible", false);
+                    }
+                });
+            }
+
+        // Format numbers for display
+        // function formatNumber(num) {
+        //     if (num >= 1e9) return `$${(num / 1e9).toFixed(1)}B`;
+        //     if (num >= 1e6) return `$${(num / 1e6).toFixed(1)}M`;
+        //     return `$${num.toFixed(2)}`;
+        // }
+        
 
         let resizeTimeout;
         window.addEventListener("resize", () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                sizes = getResponsiveSizes();
-                initializeVisualization();
-            }, 250);
+                //sizes = getResponsiveSizes();
+                initializeWithRealData(1,'24h');
+            }, 100);
         });
 
-        initializeVisualization();
+        //initializeVisualization();
+        // function createSquares() {
+        //     squareGroups.each(function(d) {
+        //         const group = d3.select(this);
+                
+        //         // Background square
+        //         group.append("rect")
+        //             .attr("class", "square")
+        //             .attr("width", d.size)
+        //             .attr("height", d.size)
+        //             .attr("x", -d.size / 2)
+        //             .attr("y", -d.size / 2)
+        //             .style("fill", "rgba(0, 0, 0, 0.2)")
+        //             .style("stroke", d => d.change24h >= 0 ? "#22c55e" : "#ef4444")
+        //             .style("stroke-width", "2")
+        //             .attr("rx", 8)
+        //             .attr("ry", 8)
+        //             .style("filter", d => d.change24h >= 0 ? "url(#greenGlow)" : "url(#redGlow)");
+
+        //         // Logo image
+        //         group.append("image")
+        //             .attr("class", "crypto-logo")
+        //             .attr("x", -12)
+        //             .attr("y", -d.size * 0.25)
+        //             .attr("width", 24)
+        //             .attr("height", 24)
+        //             .attr("href", d.logoUrl);
+
+        //         // Symbol text
+        //         group.append("text")
+        //             .attr("class", "square-label")
+        //             .attr("dy", d.size * 0.2)
+        //             .text(d.symbol)
+        //             .style("font-size", `${d.size * sizes.textScale}px`);
+
+        //         // Percentage change
+        //         group.append("text")
+        //             .attr("class", "percentage-label")
+        //             .attr("dy", d.size * 0.4)
+        //             .text(d.change24h.toFixed(1) + "%")
+        //             .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+        //             .style("fill", d => d.change24h >= 0 ? "#22c55e" : "#ef4444");
+        //     });
+        // }
+
+        // // Add refresh button handler
+        //d3.select(".refresh-btn").on("click", initializeWithRealData);
+
+        // Add pagination controls
+        function addPaginationControls() {
+            const controls = document.createElement('div');
+            controls.className = 'pagination-controls';
+            controls.innerHTML = `
+                <button class="prev-page" onclick="changePage(-1)">Previous</button>
+                <span class="page-number">Page 1</span>
+                <button class="next-page" onclick="changePage(1)">Next</button>
+            `;
+            document.body.appendChild(controls);
+        }
+
+        // Handle page changes
+        let currentPage = 1;
+
+        async function changePage(delta) {
+            let newPage = delta;
+            if (newPage < 1) return;
+            
+            currentPage = newPage;
+            await initializeWithRealData(currentPage, session_timeframe);
+            
+            // Update page number display
+            //document.querySelector('.page-number').textContent = `Page ${currentPage}`;
+            //document.querySelector('.prev-page').disabled = currentPage === 1;
+        }
+
+        function showLoader() {
+    // Add loader styles
+    const style = document.createElement('style');
+    style.textContent = loaderStyles;
+    document.head.appendChild(style);
+
+    // Add loader HTML
+    const loaderDiv = document.createElement('div');
+    loaderDiv.innerHTML = loaderHTML;
+    document.body.appendChild(loaderDiv);
+
+    return {
+        updateProgress: (percent) => {
+            const progressBar = document.querySelector('.progress-bar');
+            const percentageText = document.querySelector('.loader-percentage');
+            if (progressBar && percentageText) {
+                progressBar.style.width = `${percent}%`;
+                percentageText.textContent = `${Math.round(percent)}%`;
+            }
+        },
+        setLoadingText: (text) => {
+            const loadingText = document.querySelector('.loader-text');
+            if (loadingText) {
+                loadingText.textContent = text;
+            }
+        },
+        hide: () => {
+            const loader = document.querySelector('.crypto-loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 300);
+            }
+        }
+    };
+}
+        // Initialize
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     addPaginationControls();
+        //     initializeWithRealData(1);
+        // });
+        // Add event handlers
+document.addEventListener('DOMContentLoaded', () => {
+    let currentTimeframe = '1h';
+    let currentSort = 'percent';
+
+    // Handle timeframe changes
+    document.querySelectorAll('.timeframe-controls li a').forEach(button => {
+        button.addEventListener('click', async () => {
+            // Update active state
+            document.querySelectorAll('.timeframe-controls li a').forEach(b => 
+                b.classList.remove('active'));
+            button.classList.add('active');
+
+            // Update data and visualization
+            currentTimeframe = button.dataset.time;
+            const livedata = await fetchCryptoData(1,100,currentTimeframe, currentSort);
+            data = livedata;
+            initializeVisualization('1', currentTimeframe);
+        });
+    });
+
+    // Handle sort changes
+    document.querySelectorAll('.sort-controls li a').forEach(button => {
+        button.addEventListener('click', async () => {
+            // Update active state
+            document.querySelectorAll('.sort-controls li a').forEach(b => 
+                b.classList.remove('active'));
+            button.classList.add('active');
+
+            // Update data and visualization
+            currentSort = button.dataset.sort;
+            const livedata = await fetchCryptoData(1,100,currentTimeframe, currentSort);
+            data = livedata;
+            initializeVisualization('1', currentTimeframe);
+        });
+    });
+
+    // Initial load
+    initializeWithRealData();
+});
+
+// Search functionality
+function initializeSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    let searchTimeout;
+
+    searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        const searchTerm = e.target.value.toLowerCase();
+
+        searchTimeout = setTimeout(() => {
+            if (searchTerm.length < 1) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            const matches = data.filter(coin => 
+                coin.name.toLowerCase().includes(searchTerm) || 
+                coin.symbol.toLowerCase().includes(searchTerm)
+            ).slice(0, 10);
+
+            if (matches.length > 0) {
+                searchResults.innerHTML = matches.map(coin => `
+                    <div class="search-result-item" data-id="${coin.id}">
+                        <img src="${coin.logoUrl}" alt="${coin.name}">
+                        <div>
+                            <div>${coin.name}</div>
+                            <div style="color: rgba(255,255,255,0.6)">${coin.symbol}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                const cryptoPopup = new CryptoPopup();
+                const resultItems = searchResults.querySelectorAll('.search-result-item');
+                resultItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        const coinId = item.dataset.id;
+                        const coinData = data.find(c => c.id === parseInt(coinId));
+                        if (coinData) {
+                            cryptoPopup.show(coinData);
+                            searchResults.style.display = 'none';
+                            searchInput.value = '';
+                        }
+                    });
+                });
+
+
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.style.display = 'none';
+            }
+        }, 300);
+    });
+
+    // Handle search result clicks
+    searchResults.addEventListener('click', (e) => {
+        const resultItem = e.target.closest('.search-result-item');
+        if (resultItem) {
+            const coinId = resultItem.dataset.id;
+            const coin = data.find(c => c.id === coinId);
+            if (coin) {
+                // Highlight the selected coin
+                highlightCoin(coin);
+            }
+            searchResults.style.display = 'none';
+            searchInput.value = '';
+        }
+    });
+
+    // Close search results when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+            searchResults.style.display = 'none';
+        }
+    });
+}
+class LoadingManager {
+    constructor() {
+        this.loadingScreen = document.querySelector('.loading-screen');
+        this.loadingBar = document.querySelector('.loading-bar');
+        this.loadingText = document.querySelector('.loading-text');
+        this.loadingPercentage = document.querySelector('.loading-percentage');
+        this.progress = 0;
+    }
+
+    setProgress(progress, text = null) {
+        this.progress = Math.min(100, Math.max(0, progress));
+        this.loadingBar.style.width = `${this.progress}%`;
+        this.loadingPercentage.textContent = `${Math.round(this.progress)}%`;
+        if (text) {
+            this.loadingText.textContent = text;
+        }
+    }
+
+    show() {
+        this.loadingScreen.style.display = 'flex';
+    }
+
+    hide() {
+        this.loadingScreen.style.opacity = '0';
+        this.loadingScreen.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => {
+            this.loadingScreen.style.display = 'none';
+            this.loadingScreen.style.opacity = '1';
+        }, 500);
+    }
+}
+// Helper function for delays
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Auto refresh function
+function startAutoRefresh() {
+    // Clear any existing interval
+    if (window.refreshInterval) {
+        clearInterval(window.refreshInterval);
+    }
+
+    // Set new interval
+    window.refreshInterval = setInterval(async () => {
+        const loading = new LoadingManager();
+        loading.show();
+        
+        try {
+            loading.setProgress(20, 'Refreshing data...');
+            const newData = await fetchCryptoData();
+            
+            loading.setProgress(60, 'Updating visualization...');
+            if (newData.length > 0) {
+                data = newData;
+                await initializeVisualization(data);
+            }
+            
+            loading.setProgress(100, 'Complete!');
+            await delay(300);
+            loading.hide();
+            
+        } catch (error) {
+            console.error('Auto-refresh failed:', error);
+            loading.setProgress(100, 'Refresh failed');
+            await delay(1000);
+            loading.hide();
+        }
+    }, 5 * 60 * 1000); // 5 minutes interval
+}
+
+// Add cleanup on page unload
+// window.addEventListener('beforeunload', () => {
+//     if (window.refreshInterval) {
+//         clearInterval(window.refreshInterval);
+//     }
+// });
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    initializeWithRealData(1,100,'24h');
+});
+
+
+class DataUpdaterLine {
+    constructor() {
+        this.progressLine = document.querySelector('.progress-line');
+        this.timeLeft = 180; // 60 seconds timer
+        this.interval = null;
+    }
+
+    start() {
+this.timeLeft = 180;
+this.progressLine.style.transform = 'translateX(-100%)';
+this.progressLine.offsetHeight;
+
+this.progressLine.style.transition = 'transform 180s linear';
+        this.progressLine.style.transform = 'translateX(0)';
+
+
+        this.timeout = setTimeout(() => {
+            this.refreshData();
+        }, 180000);
+
+    }
+
+    
+
+    stop() {
+        if (this.interval) {
+            clearInterval(this.interval);
+        }
+    }
+
+    async refreshData() {
+        try {
+            // Reset progress bar to 0
+            this.progressLine.style.transition = 'none';
+            this.progressLine.style.transform = 'scaleX(0)';
+            
+            const newData = await fetchCryptoData(1,100,session_timeframe);
+            // Fetch new data
+            // const newData = await fetchCryptoData();
+            if (newData.length > 0) {
+                data = newData;
+                initializeWithRealData(session_timeframe);
+            }
+
+            // Restore transition and start new progress
+            setTimeout(() => {
+                this.start();
+            }, 1000);
+
+
+        } catch (error) {
+            console.error('Refresh failed:', error);
+        }
+    }
+}
+
+// Initialize
+function startDataUpdater() {
+    const updater = new DataUpdaterLine();
+    updater.start();
+    window.dataUpdater = updater;
+}
+
+// Start after initial load
+document.addEventListener('DOMContentLoaded', () => {
+    initializeWithRealData().then(() => {
+        startDataUpdater();
+    });
+});
+
+// Cleanup
+window.addEventListener('beforeunload', () => {
+    if (window.dataUpdater) {
+        window.dataUpdater.stop();
+    }
+});
+
+// Pause animation when tab is inactive
+document.addEventListener('visibilitychange', () => {
+    const progressLine = document.querySelector('.progress-line');
+    if (document.hidden) {
+        progressLine.style.animationPlayState = 'paused';
+    } else {
+        progressLine.style.animationPlayState = 'running';
+    }
+});
+
+class CryptoPopup {
+    constructor() {
+        this.popup = document.getElementById('cryptoPopup');
+        this.overlay = document.getElementById('overlay');
+        this.isOpen = false;
+        this.setupCloseButton();
+    }
+
+    setupCloseButton() {
+        const closeButton = this.popup.querySelector('.close-button');
+        closeButton.addEventListener('click', () => this.hide());
+
+        // Close on overlay click
+        this.overlay.addEventListener('click', () => this.hide());
+    }
+
+    show(coinData) {
+    // if (this.isOpen) return;
+    //     this.isOpen = true;
+        // Show overlay first
+        this.overlay.style.display = 'block';
+
+        // Format numbers
+        const formatNumber = (num) => {
+            if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
+            if (num >= 1e6) return `$${(num / 1e6).toFixed(2)}M`;
+            if (num >= 1e3) return `$${(num / 1e3).toFixed(2)}K`;
+            return `$${num.toFixed(2)}`;
+        };
+
+        // Update popup content
+        this.popup.querySelector('.coin-logo').src = coinData.logoUrl;
+        this.popup.querySelector('.coin-name').textContent = coinData.name;
+        this.popup.querySelector('.coin-symbol').textContent = coinData.symbol;
+        
+        this.popup.querySelector('.price').textContent = 
+            formatNumber(coinData.price);
+        
+        const change24h = this.popup.querySelector('.change24h');
+        change24h.textContent = `${coinData.change24h.toFixed(2)}%`;
+        change24h.className = `detail-value change24h ${coinData.change24h >= 0 ? 'positive' : 'negative'}`;
+        
+        this.popup.querySelector('.market-cap').textContent = 
+            formatNumber(coinData.marketCap);
+        this.popup.querySelector('.volume').textContent = 
+            formatNumber(coinData.volume);
+
+        // Show popup with animation
+        this.popup.style.display = 'block';
+        requestAnimationFrame(() => {
+            this.popup.style.opacity = '1';
+            this.popup.style.transform = 'translate(-50%, -50%)';
+        });
+    }
+
+    hide() {
+        this.popup.style.opacity = '0';
+        this.popup.style.transform = 'translate(-50%, -60%)';
+        this.overlay.style.display = 'none';
+        
+        setTimeout(() => {
+            this.popup.style.display = 'none';
+        }, 300);
+    }
+}
     </script>
     <!-- <script>
         // Select the SVG and set up viewBox for responsiveness
