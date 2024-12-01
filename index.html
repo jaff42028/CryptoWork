@@ -1254,8 +1254,8 @@
 //     }
 // ]; 
     
-    const API_URL = 'http://localhost:3000/api/crypto';
-    //const API_URL = 'http://irc-library.org:8030/api/crypto';
+    //const API_URL = 'http://localhost:3000/api/crypto';
+    const API_URL = 'http://irc-library.org:8030/api/crypto';
     const CMC_CONFIG = {
         API_KEY: 'f70899e8-f0df-49d0-8fab-a038220b9f79', // Replace with your API key
         BASE_URL: 'https://pro-api.coinmarketcap.com/v1',
@@ -2312,7 +2312,7 @@
         // });
         // Add event handlers
 document.addEventListener('DOMContentLoaded', () => {
-    
+    let currentTimeframe = '1h';
     let currentSort = 'percent';
 
     // Handle timeframe changes
@@ -2325,9 +2325,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Update data and visualization
             session_timeframe = button.dataset.time;
-            // const livedata = await fetchCryptoData(1,100,currentTimeframe, currentSort);
-            // data = livedata;
-            // initializeVisualization('1', currentTimeframe);
+            const livedata = await fetchCryptoData(1,100,session_timeframe, currentSort);
+            data = livedata;
+            initializeVisualization('1', session_timeframe);
         });
     });
 
