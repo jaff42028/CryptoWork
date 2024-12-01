@@ -501,7 +501,6 @@
                     </li> -->
                     <li class="nav-item me-2">
                       <select class="form-select" onchange="changePage(value)">
-                            <option disabled>Pages</option>
                             <option selected value=1 >1 - 100</option>
                             <option value=2 >101 - 200</option>
                             <option value=3 >201 - 300</option>
@@ -544,9 +543,9 @@
                             <option value="eth">Ξ ETH</option>
                         </select>
                     </li>
-                    <li class="nav-item settings">
+                    <!-- <li class="nav-item settings">
                         <a class="nav-link text-center" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fa-solid fa-gear"></i></a>
-                    </li>
+                    </li> -->
                   </ul>
             </div>
         </div>
@@ -1254,8 +1253,9 @@
 //         athChangePercentage: -70.27
 //     }
 // ]; 
-    //const API_URL = 'http://localhost:3000/api/crypto';
-    const API_URL = 'https://irc-library.org:8030/api/crypto';
+    
+    const API_URL = 'http://localhost:3000/api/crypto';
+    //const API_URL = 'http://irc-library.org:8030/api/crypto';
     const CMC_CONFIG = {
         API_KEY: 'f70899e8-f0df-49d0-8fab-a038220b9f79', // Replace with your API key
         BASE_URL: 'https://pro-api.coinmarketcap.com/v1',
@@ -1278,12 +1278,12 @@
                 //     });
                 try {
                     // Example using a proxy server - replace with your proxy URL
-                    const start = (page - 1) * limit + 1;
-                    if(start === NaN)
+                    let start_ = (page - 1) * limit + 1;
+                    if(isNaN(start_))
                     {
-                        start =1;
+                        start_ =1;
                     }
-                    const response = await fetch(`${API_URL}?start_=${start}&limit=100&timeframe=${timeframe}`);
+                    const response = await fetch(`${API_URL}?start=${start_}&limit=100&timeframe=${timeframe}`);
 
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
@@ -1320,12 +1320,12 @@
             }
         
 
-         // Initialize visualization with real data
-         async function initializeWithRealData(page = 1, timeframe='24h') {
+    // Initialize visualization with real data
+    async function initializeWithRealData(page = 1, timeframe='24h') {
 
 
             const loading = new LoadingManager();
-    loading.show();
+            loading.show();
 
         // Start loading sequence
         loading.setProgress(0, 'Initializing...');
@@ -1355,7 +1355,7 @@
 
         // Start interval after loading is complete
         //startAutoRefresh();
-            }
+    }
 
         let sizes = getResponsiveSizes();
         let simulation;
@@ -1628,13 +1628,14 @@
                     else if (change > 400) size = maxSize * 0.8;
                     else if (change > 200) size = maxSize * 0.75;
                     else if (change > 100) size = maxSize * 0.7;
-                    else if (change > 30) size = maxSize * 0.65;
-                    else if (change > 20) size = maxSize * 0.6;
-                    else if (change > 10) size = maxSize * 0.5;
-                    else if (change > 5) size = maxSize * 0.35;
-                    else if (change > 3) size = maxSize * 0.3;
-                    else if (change > 2) size = maxSize * 0.25;
-                    else if (change > 1) size = maxSize * 0.2;
+                    else if (change > 50) size = maxSize * 0.6;
+                    else if (change > 30) size = maxSize * 0.5;
+                    else if (change > 20) size = maxSize * 0.4;
+                    else if (change > 10) size = maxSize * 0.35;
+                    else if (change > 5) size = maxSize * 0.3;
+                    else if (change > 3) size = maxSize * 0.25;
+                    else if (change > 2) size = maxSize * 0.15;
+                    else if (change > 1) size = maxSize * 0.10;
                     else size = maxSize* 0.08;
            }
            }
@@ -1668,7 +1669,7 @@
                     else size = maxSize* 0.08;
            }
            }
-           if (timeframe == '30d') {
+        if (timeframe == '30d') {
             change = Math.abs(d.change30d);
                maxSize = Math.min( width, height) * 0.15 * reductionFactor;
 
@@ -1700,7 +1701,7 @@
                     else size = maxSize* 0.08;
            }
            }
-           if (timeframe == '365d') {
+        if (timeframe == '365d') {
             change = Math.abs(d.change365d);
                maxSize = Math.min( width, height) * 0.20 * reductionFactor;
 
@@ -1717,13 +1718,13 @@
                     else size = 20 * reductionFactor;
                 } else {
                     if (change > 1000) size = maxSize;
-                    else if (change > 500) size = maxSize*0.9;
-                    else if (change > 400) size = maxSize * 0.8;
-                    else if (change > 200) size = maxSize * 0.75;
-                    else if (change > 100) size = maxSize * 0.7;
-                    else if (change > 50) size = maxSize * 0.6
-                    else if (change > 30) size = maxSize * 0.5;
-                    else if (change > 20) size = maxSize * 0.4;
+                    else if (change > 500) size = maxSize*0.8;
+                    else if (change > 400) size = maxSize * 0.7;
+                    else if (change > 200) size = maxSize * 0.65;
+                    else if (change > 100) size = maxSize * 0.6;
+                    else if (change > 50) size = maxSize * 0.45
+                    else if (change > 30) size = maxSize * 0.4;
+                    else if (change > 20) size = maxSize * 0.35;
                     else if (change > 10) size = maxSize * 0.3;
                     else if (change > 5) size = maxSize * 0.2;
                     //else if (change > 3) size = maxSize * 0.3;
@@ -1732,7 +1733,7 @@
                     else size = maxSize* 0.08;
            }
            }
-           if (timeframe == 'mcap') {
+        if (timeframe == 'mcap') {
             const marketCapSize = Math.log10(d.marketCapChange24h);
                maxSize = Math.min( width, height) * 0.20 * reductionFactor;
 
@@ -1783,7 +1784,7 @@
                 simulation = d3.forceSimulation(data)
                     .alphaDecay(0.01)
                     .alphaMin(0.001)
-                    .velocityDecay(0.4)
+                    .velocityDecay(0.5)
                     .force("charge", d3.forceManyBody()
                         .strength(d => -Math.pow(d.size, 1.2))
                         .distanceMax(Math.min(sizes.width, sizes.height) * 0.8))
@@ -1979,7 +1980,24 @@
                                     .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
                             }
                         }
-                        else if (timeframe == '7d' || timeframe == '30d') {
+                        else if (timeframe == '24h') {
+                            if (Math.abs(change) > 2) {
+                                group.append("text")
+                                    .attr("class", "square-label")
+                                    .attr("dy", d.size * 0.2)
+                                    .text(d.symbol)
+                                    .style("font-size", `${d.size * sizes.textScale}px`);
+
+                                // Percentage change
+                                group.append("text")
+                                    .attr("class", "percentage-label")
+                                    .attr("dy", d.size * 0.4)
+                                    .text(change.toFixed(1) + "%")
+                                    .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
+                                    .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
+                            }
+                        }
+                        else if (timeframe == '24h' ||timeframe == '7d' || timeframe == '30d') {
                             if (Math.abs(change) > 5) {
                                 group.append("text")
                                     .attr("class", "square-label")
@@ -2041,7 +2059,7 @@
                             group.append("text")
                                 .attr("class", "percentage-label")
                                 .attr("dy", d.size * 0.4)
-                                .text(change.toFixed(1) + "%")
+                                .text(change + "%")
                                 .style("font-size", `${d.size * (sizes.textScale - 0.02)}px`)
                                 .style("fill", change >= 0 ? "#22c55e" : "#ef4444");
                         }
@@ -2172,7 +2190,8 @@
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 //sizes = getResponsiveSizes();
-                initializeWithRealData(1,'24h');
+                //initializeWithRealData(1,'24h');
+                initializeVisualization(1,'24h');
             }, 100);
         });
 
@@ -2252,17 +2271,17 @@
         }
 
         function showLoader() {
-    // Add loader styles
-    const style = document.createElement('style');
-    style.textContent = loaderStyles;
-    document.head.appendChild(style);
+            // Add loader styles
+            const style = document.createElement('style');
+            style.textContent = loaderStyles;
+            document.head.appendChild(style);
 
-    // Add loader HTML
-    const loaderDiv = document.createElement('div');
-    loaderDiv.innerHTML = loaderHTML;
-    document.body.appendChild(loaderDiv);
+            // Add loader HTML
+            const loaderDiv = document.createElement('div');
+            loaderDiv.innerHTML = loaderHTML;
+            document.body.appendChild(loaderDiv);
 
-    return {
+            return {
         updateProgress: (percent) => {
             const progressBar = document.querySelector('.progress-bar');
             const percentageText = document.querySelector('.loader-percentage');
@@ -2285,7 +2304,7 @@
             }
         }
     };
-}
+        }
         // Initialize
         // document.addEventListener('DOMContentLoaded', () => {
         //     addPaginationControls();
@@ -2293,7 +2312,7 @@
         // });
         // Add event handlers
 document.addEventListener('DOMContentLoaded', () => {
-    let currentTimeframe = '1h';
+    
     let currentSort = 'percent';
 
     // Handle timeframe changes
@@ -2305,10 +2324,10 @@ document.addEventListener('DOMContentLoaded', () => {
             button.classList.add('active');
 
             // Update data and visualization
-            currentTimeframe = button.dataset.time;
-            const livedata = await fetchCryptoData(1,100,currentTimeframe, currentSort);
-            data = livedata;
-            initializeVisualization('1', currentTimeframe);
+            session_timeframe = button.dataset.time;
+            // const livedata = await fetchCryptoData(1,100,currentTimeframe, currentSort);
+            // data = livedata;
+            // initializeVisualization('1', currentTimeframe);
         });
     });
 
@@ -2458,7 +2477,7 @@ function startAutoRefresh() {
         
         try {
             loading.setProgress(20, 'Refreshing data...');
-            const newData = await fetchCryptoData();
+            const newData = await fetchCryptoData(1,100,session_timeframe == null ? '24h' : session_timeframe);
             
             loading.setProgress(60, 'Updating visualization...');
             if (newData.length > 0) {
@@ -2528,7 +2547,7 @@ this.progressLine.style.transition = 'transform 180s linear';
             this.progressLine.style.transition = 'none';
             this.progressLine.style.transform = 'scaleX(0)';
             
-            const newData = await fetchCryptoData(1,100,session_timeframe);
+            const newData = await fetchCryptoData(1,100,session_timeframe == null ? '24h' : session_timeframe );
             // Fetch new data
             // const newData = await fetchCryptoData();
             if (newData.length > 0) {
