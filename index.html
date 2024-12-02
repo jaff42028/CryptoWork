@@ -2090,9 +2090,13 @@
 
                 simulation.on("tick", () => {
                     squareGroups.attr("transform", d => {
-                        const padding = d.size / 2 + sizes.padding;
-                        d.x = Math.max(padding * 2, Math.min(sizes.width - padding, d.x));
-                        d.y = Math.max(padding * 2, Math.min(sizes.height - padding, d.y));
+                        // const padding = d.size / 2 + sizes.padding;
+                        // d.x = Math.max(padding * 2, Math.min(sizes.width - padding, d.x));
+                        // d.y = Math.max(padding * 2, Math.min(sizes.height - padding, d.y));
+                        // return `translate(${d.x},${d.y})`;
+                        const padding = d.size * 0.7;
+                        d.x = Math.max(padding, Math.min(sizes.width - padding, d.x));
+                        d.y = Math.max(padding, Math.min(sizes.height - padding, d.y));
                         return `translate(${d.x},${d.y})`;
                     });
                 });
