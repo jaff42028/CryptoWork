@@ -82,7 +82,7 @@
 
         .square {
             cursor: pointer;
-            transition: all 0.2s;
+            /* transition: all 0.2s; */
         }
         .crypto-logo{
             cursor: pointer;
@@ -97,7 +97,6 @@
             cursor: move;
             pointer-events: all;
         }
-
         .square-label, .percentage-label {
             cursor: pointer;
             font-weight: bold;
@@ -119,6 +118,9 @@
             }
             .percentage-label {
                 font-size: 9px !important;
+            }
+            .heading_{
+                font-size: 25px;
             }
         }
         .details-panel {
@@ -169,9 +171,6 @@
 }
 
 @media (max-width: 768px) {
-    .heading_{
-                font-size: 25px !important;
-            }
     .nav-tabs li a {
         padding: 5px 10px;
         font-size: 10px;
@@ -468,7 +467,7 @@
     <header>
         <nav class="navbar navbar-expand-xl navbar-dark">
             <div class="container-fluid">
-                <img height="30" style="margin: 5px;" src="assets/images/logo.png" alt="CS" title="Logo of CryptoSquares">
+                <img height="30" style="margin: 5px;" src="/assets/images/logo2.png" alt="CS" title="Logo of CryptoSquares">
             <a class="navbar-brand heading_" style="font-size: 35px; padding: 0px;" href="javascript:void(0)">CRYPTO SQUARES</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -481,7 +480,7 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="searchInput" placeholder="Search cryptocurrency...">
+                    <input type="text" id="searchInput" placeholder="Search cryptocurrencies">
                 </div>
                     <div class="search-results" id="searchResults"></div>
                 </div>
@@ -626,7 +625,7 @@
                     <a class="" data-time="365d" data-bs-toggle="pill" href="#year">Year</a>
                 </li>
                 <li >
-                    <a class="" data-time="mcap" data-bs-toggle="pill" href="#market">Market Cap</a>
+                    <a class="" data-time="mcap" data-bs-toggle="pill" href="#market">Market Cap & Day</a>
                 </li>
             </ul>
             
@@ -1257,8 +1256,8 @@
 //     }
 // ]; 
     
-    //const API_URL = 'http://localhost:3000/api/crypto';
-    const API_URL = 'https://irc-library.org:8030/api/crypto';
+    const API_URL = 'http://localhost:3000/api/crypto';
+    //const API_URL = 'http://irc-library.org:8030/api/crypto';
     const CMC_CONFIG = {
         API_KEY: 'f70899e8-f0df-49d0-8fab-a038220b9f79', // Replace with your API key
         BASE_URL: 'https://pro-api.coinmarketcap.com/v1',
@@ -1339,8 +1338,9 @@
                 const realData = await fetchCryptoData(page,100,timeframe);
 
                 if (realData.length === 0) {
-                    alert("Error loading cryptocurrency data. Please try again later.");
-                    return;
+                    //alert("Error loading cryptocurrency data. Please try again later.");
+                    realData = await fetchCryptoData(1,100,'24h');
+                    //return;
                 }
 
                 loading.setProgress(60, 'Processing data...');
@@ -1635,10 +1635,10 @@
                     else if (change > 30) size = maxSize * 0.5;
                     else if (change > 20) size = maxSize * 0.4;
                     else if (change > 10) size = maxSize * 0.35;
-                    else if (change > 5) size = maxSize * 0.3;
-                    else if (change > 3) size = maxSize * 0.25;
-                    else if (change > 2) size = maxSize * 0.15;
-                    else if (change > 1) size = maxSize * 0.10;
+                    else if (change > 5) size = maxSize * 0.32;
+                    else if (change > 3) size = maxSize * 0.3;
+                    else if (change > 2) size = maxSize * 0.25;
+                    else if (change > 1) size = maxSize * 0.2;
                     else size = maxSize* 0.08;
            }
            }
@@ -1784,10 +1784,35 @@
 //        .force("collide", d3.forceCollide().radius(d => d.size * 0.7).strength(1))
 //        .force("x", d3.forceX(width / 2).strength(0.05))
 //        .force("y", d3.forceY(height / 2).strength(0.05));
+                // simulation = d3.forceSimulation(data)
+                //     .alphaDecay(0.008)
+                //     .alphaMin(0.001)
+                //     .velocityDecay(0.7)
+                //     .force("charge", d3.forceManyBody()
+                //         .strength(d => -Math.pow(d.size, 1.2))
+                //         .distanceMax(Math.min(sizes.width, sizes.height) * 0.8))
+                //     .force("collide", d3.forceCollide()
+                //         .radius(d => d.size * 0.7)
+                //         .strength(0.2)
+                //         .iterations(5))
+                //     //.force("x", d3.forceX(sizes.width / 2).strength(0.03))
+                //     //.force("y", d3.forceY(sizes.height / 2).strength(0.03));
+                //     .force("x", d3.forceX().x(d => {
+                //         // Spread across multiple columns
+                //         const columns = 8;
+                //         const section = Math.floor(Math.random() * columns);
+                //         return (sizes.width * (section + 0.5) / columns);
+                //     }).strength(0.05))
+                //     .force("y", d3.forceY().y(d => {
+                //         // Spread across multiple rows
+                //         const rows = 5;
+                //         const section = Math.floor(Math.random() * rows);
+                //         return (sizes.height * (section + 0.5) / rows);
+                //     }).strength(0.05));
                 simulation = d3.forceSimulation(data)
                     .alphaDecay(0.01)
                     .alphaMin(0.001)
-                    .velocityDecay(0.5)
+                    .velocityDecay(0.6)
                     .force("charge", d3.forceManyBody()
                         .strength(d => -Math.pow(d.size, 1.2))
                         .distanceMax(Math.min(sizes.width, sizes.height) * 0.8))
@@ -1843,6 +1868,7 @@
 
                     // Background square with transparent fill and glowing border
                     group.append("rect")
+                    
                         .attr("class", "square")
                         .attr("width", d.size)
                         .attr("height", d.size)
@@ -1854,8 +1880,8 @@
                         // .attr("rx", 8)
                         // .attr("ry", 8)
                         .style("filter", change >= 0 ? "url(#greenGlow)" : "url(#redGlow)")
-                        .style("transition", "all 0.2s ease")
-                        .on("click", function(event) {
+                        
+                    .on("click", function(event) {
                             event.stopPropagation();
                             cryptoPopup.show(d);
                         })
@@ -1903,6 +1929,7 @@
                         .attr("y", -d.size * 0.25)
                         .attr("width", logoSize)
                         .attr("height", logoSize)
+                        .style("pointer-events", "none")
                         .attr("href", d.logoUrl);
 
                         const displayValue = d => {
@@ -1984,7 +2011,7 @@
                             }
                         }
                         else if (timeframe == '24h') {
-                            if (Math.abs(change) > 2) {
+                            if (Math.abs(change) > 1) {
                                 group.append("text")
                                     .attr("class", "square-label")
                                     .attr("dy", d.size * 0.2)
@@ -2090,17 +2117,57 @@
 
                 simulation.on("tick", () => {
                     squareGroups.attr("transform", d => {
-                        // const padding = d.size / 2 + sizes.padding;
-                        // d.x = Math.max(padding * 2, Math.min(sizes.width - padding, d.x));
-                        // d.y = Math.max(padding * 2, Math.min(sizes.height - padding, d.y));
-                        // return `translate(${d.x},${d.y})`;
-                        const padding = d.size * 0.7;
-                        d.x = Math.max(padding, Math.min(sizes.width - padding, d.x));
-                        d.y = Math.max(padding, Math.min(sizes.height - padding, d.y));
+                        const padding = d.size / 2 + sizes.padding;
+                        d.x = Math.max(padding * 2, Math.min(sizes.width - padding, d.x));
+                        d.y = Math.max(padding * 2, Math.min(sizes.height - padding, d.y));
                         return `translate(${d.x},${d.y})`;
+                        // const padding = d.size * 0.7;
+                        // d.x = Math.max(padding, Math.min(sizes.width - padding, d.x));
+                        // d.y = Math.max(padding, Math.min(sizes.height - padding, d.y));
+                        // return `translate(${d.x},${d.y})`;
                     });
                 });
 
+                
+                setInterval(() => {
+            data.forEach(d => {
+                // Update the value randomly to simulate live data changes
+                d.value += (Math.random() - 0.5) * d.value * 1.2; // ±10% fluctuation
+                d.value = Math.max(1, d.value); // Ensure value is at least 1
+            });
+
+            // Update size scale domain with new max value after each update
+            //sizeScale.domain([0, d3.max(data, d => d.value)]);
+
+            // Restart simulation to apply changes
+            simulation.alpha(0.3).restart();
+        }, 2000); // Update every 2 seconds
+
+    let animationFrameId;
+
+function animate() {
+
+    data.forEach(d => {
+        // Very subtle random movement
+        d.x += (Math.random() - 0.5) * 0.9; // Reduced to 0.1 for gentler movement
+        d.y += (Math.random() - 0.5) * 0.9;
+    });
+
+    squareGroups.attr("transform", d => {
+        const padding = d.size * 0.7;
+        // Keep squares within bounds
+        d.x = Math.max(padding, Math.min(sizes.width - padding, d.x));
+        d.y = Math.max(padding, Math.min(sizes.height - padding, d.y));
+        
+        // Smooth transition
+        return `translate(${d.x},${d.y})`;
+    });
+
+    requestAnimationFrame(animate);
+}
+// simulation.on("end", () => {
+//     animate();
+// });
                  // Show details panel
         // function showDetails(event, d) {
         //     const details = d3.select("#details");
