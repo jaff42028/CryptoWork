@@ -1840,6 +1840,7 @@
                     change = d.marketCapChange24h;
                    }
 
+                    try{
                     // Background square with transparent fill and glowing border
                     group.append("rect")
                     
@@ -1872,6 +1873,10 @@
                                 .style("stroke-width", "3")
                                 .style("filter", change >= 0 ? "url(#greenGlow)" : "url(#redGlow)");
                         });
+                    }
+                    catch (error) {
+            console.error('Issue in populating rect', error);
+                    }
 
                     // Logo circle
                     //const logoSize = d.size * sizes.logoScale;
