@@ -1684,15 +1684,15 @@
             //    else if (change > 30) size = maxSize * 0.7;
             //    else if (change > 20) size = maxSize * 0.65;
             //    else if (change > 10) size = maxSize * 0.6;
-               else if (change > 5) size = maxSize * 0.9;
+               else if (change > 5) size = maxSize * 0.6;
                //else if (change > 3) size = maxSize * 0.7;
                //else if (change > 2.5) size = maxSize * 0.65;
-               else if (change > 2) size = maxSize * 0.5;
+               else if (change > 2) size = maxSize * 0.45;
                //else if (change > 1.5) size = maxSize * 0.55;
                else if (change > 1) size = maxSize * 0.4;
-               else if (change > 0.5) size = maxSize * 0.35;
+               else if (change > 0.5) size = maxSize * 0.3;
                //else if (change > 0.3) size = maxSize * 0.35;
-               else if (change > 0.2) size = maxSize * 0.3;
+               else if (change > 0.2) size = maxSize * 0.2;
                else size = maxSize* 0.1;
            }
         }
@@ -1822,21 +1822,39 @@
            }
         if (timeframe == 'mcap') {
             //const marketCapSize = Math.log10(d.marketCapChange24h);
-            marketCapSize = Math.abs(d.change7d);
+            change = Math.abs(d.change7d);
                maxSize = Math.min( width, height) * 0.20 * reductionFactor;
 
                if(window.innerWidth < 768) {
-                        if(marketCapSize > 11) d.size = 120;
-                        else if(marketCapSize > 10) d.size = 100;
-                        else if(marketCapSize > 9) d.size = 80;
-                        else if(marketCapSize > 8) d.size = 60;
-                        else d.size = 40;
+                        if (change > 1000) size = maxSize;
+                    else if (change > 500) size = maxSize*0.8;
+                    else if (change > 400) size = maxSize * 0.7;
+                    else if (change > 200) size = maxSize * 0.65;
+                    else if (change > 100) size = maxSize * 0.6;
+                    else if (change > 50) size = maxSize * 0.45
+                    else if (change > 30) size = maxSize * 0.4;
+                    else if (change > 20) size = maxSize * 0.35;
+                    else if (change > 10) size = maxSize * 0.3;
+                    else if (change > 5) size = maxSize * 0.2;
+                    //else if (change > 3) size = maxSize * 0.3;
+                    //else if (change > 2) size = maxSize * 0.25;
+                    //else if (change > 1) size = maxSize * 0.2;
+                    else size = maxSize* 0.08;
                     } else {
-                        if(marketCapSize > 11) d.size = 250;
-                        else if(marketCapSize > 10) d.size = 200;
-                        else if(marketCapSize > 9) d.size = 150;
-                        else if(marketCapSize > 8) d.size = 100;
-                        else d.size = 50;
+                        if (change > 1000) size = maxSize;
+                    else if (change > 500) size = maxSize*0.8;
+                    else if (change > 400) size = maxSize * 0.7;
+                    else if (change > 200) size = maxSize * 0.65;
+                    else if (change > 100) size = maxSize * 0.6;
+                    else if (change > 50) size = maxSize * 0.45
+                    else if (change > 30) size = maxSize * 0.4;
+                    else if (change > 20) size = maxSize * 0.35;
+                    else if (change > 10) size = maxSize * 0.3;
+                    else if (change > 5) size = maxSize * 0.2;
+                    //else if (change > 3) size = maxSize * 0.3;
+                    //else if (change > 2) size = maxSize * 0.25;
+                    //else if (change > 1) size = maxSize * 0.2;
+                    else size = maxSize* 0.08;
                     }
            }
 
