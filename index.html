@@ -123,6 +123,7 @@
             .heading_{
                 font-size: 25px;
             }
+            
         }
         .details-panel {
             position: fixed;
@@ -462,16 +463,7 @@
     backdrop-filter: blur(2px);
     z-index: 999;
 }
-.table-container {
-            /* overflow-x: auto; */
-            max-height: 80vh;
-        }
-        th {
-            position: sticky;
-            top: 0;
-            background-color: #1f2937;
-            z-index: 10;
-        }
+
         .square-container {
             cursor: pointer;
         }
@@ -480,18 +472,142 @@
             dominant-baseline: middle;
             fill: white;
         }
+        
+
+        .table-container {
+            position: relative;
+            max-width: 100%;
+            overflow-x: auto;
+            margin: 1rem;
+            border-radius: 8px;
+            background: #1a1a1a;
+        }
+
+        #cryptoTable {
+            width: 100%;
+            min-width: 1000px; /* Ensures table maintains minimum width */
+            border-collapse: collapse;
+            background-color: #1a1a1a;
+        }
+
+        #cryptoTable th {
+            background-color: #1f2937;
+            padding: 12px 16px;
+            text-align: left;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 600;
+            white-space: nowrap; /* Prevents header text from wrapping */
+        }
+
+        #cryptoTable td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #374151;
+            color: #fff;
+            white-space: nowrap; /* Prevents cell content from wrapping */
+        }
+
+        /* Right align specific columns */
+        #cryptoTable th:nth-child(n+3),
+        #cryptoTable td:nth-child(n+3) {
+            text-align: right;
+        }
+
+        #cryptoTable th:hover {
+            background-color: #374151;
+        }
+
+        /* Mobile optimizations */
+        @media screen and (max-width: 768px) {
+            .table-container {
+                margin: 0.5rem;
+                border-radius: 4px;
+            }
+
+            #cryptoTable th,
+            #cryptoTable td {
+                padding: 8px 12px;
+                font-size: 0.875rem;
+            }
+            .search-icon {
+                top: 44%;
+                width: 40px;
+            }
+        }
+
+        /* Scrollbar styling */
+        .table-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #1f2937;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 3px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+
+
+        /* Mobile: Show Bubbles, Hide Table */
+        @media (max-width: 768px) {
+            #tableView {
+                display: none !important;
+            }
+            .tabs, #squareView {
+                display: block !important;
+            }
+        }
+        /* Tab Styles (Mobile Only) */
+        .tabs {
+            border-bottom: 1px solid #374151;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            background-color: #111827;
+            z-index: 10;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 32px;
+        }
+
+        .tab-button {
+            padding: 16px 4px;
+            background: none;
+            border: none;
+            color: #9CA3AF;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .tab-button.active {
+            color: #3B82F6;
+            border-bottom: 2px solid #3B82F6;
+        }
+        .collapse {
+            visibility: visible !important;
+        }
+
     </style>
 </head>
 <body class="bg-dark">
     <header>
         <nav class="navbar navbar-expand-xl navbar-dark">
             <div class="container-fluid">
-                <img style="height:30px;margin: 5px;" src="assets/images/logo.png" alt="CS" title="Logo of CryptoSquares">
+                <img height="30" style="margin: 5px;" src="assets/images/logo.png" alt="CS" title="Logo of CryptoSquares">
             <a class="navbar-brand heading_" style="font-size: 35px; padding: 0px;" href="javascript:void(0)">CRYPTO SQUARES</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class=" navbar-collapse" id="mynavbar">
+            <div class="collapse navbar-collapse" id="mynavbar">
                 <div class="grow"></div>
                 <div class="search-container">
                     <div class="search-input-wrapper">
@@ -500,7 +616,7 @@
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
                     <input type="text" id="searchInput" placeholder="Search cryptocurrencies">
-                </div>
+                    </div>
                     <div class="search-results" id="searchResults"></div>
                 </div>
                 <ul class="navbar-nav ms-auto">
@@ -624,6 +740,7 @@
         </div>
     </div>
 
+    
 
     <section class="filter">
         <div class="tabs-container timeframe-controls">
@@ -648,25 +765,9 @@
                 </li>
             </ul>
             
-            <div class="tab-content ">
-                <div id="hour" class=" tab-pane active">
-                    <div class="chart-container" id="chart">
-                        
-                        <!-- <svg id="chart" class="chart">
-                            <filter id="inner-shadow" x="-20%" y="-20%" width="200%" height="200%">
-                                <feComponentTransfer in="SourceAlpha">
-                                    <feFuncA type="table" tableValues="1 0"/>
-                                </feComponentTransfer>
-                                <feGaussianBlur stdDeviation="4" result="blur"/>
-                                <feOffset dx="2" dy="2" result="offsetBlur"/>
-                                <feComposite operator="in" in2="SourceAlpha" in="offsetBlur"/>
-                                <feMerge>
-                                    <feMergeNode/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </svg> -->
-                    </div>
+            <div class="tab-content view active" id="squareView">
+                <div id="hour" class="tab-pane active">
+                    <div class="chart-container" id="chart"></div>
                 </div>
                 <div id="day" class="container-fluid tab-pane fade"><br>
                     <h3>Menu 1</h3>
@@ -684,35 +785,29 @@
                     <h3>Menu 2</h3>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <section class="mt-3">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Table Section -->
-
-        <div class="table-container">
-            <table id="cryptoTable" class="w-full min-w-[1000px]">
-                <thead>
-                    <tr class="bg-gray-800">
-                        <th class="px-4 py-3 text-left cursor-pointer hover:bg-gray-700">#</th>
-                        <th class="px-4 py-3 text-left cursor-pointer hover:bg-gray-700">Name</th>
-                        <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">Price</th>
-                        <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">1h %</th>
-                        <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">24h %</th>
-                        <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">7d %</th>
-                        <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">Market Cap</th>
-                        <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">Volume (24h)</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-800">
-                    <!-- Table rows will be populated by JavaScript -->
-                </tbody>
-            </table>
-        </div>
-
+            <div class="table-container view" id="tableView">
+                <table id="cryptoTable" class="w-full min-w-[1000px]">
+                    <thead>
+                        <tr class="bg-gray-800">
+                            <th class="px-4 py-3 text-left cursor-pointer hover:bg-gray-700">#</th>
+                            <th class="px-4 py-3 text-left cursor-pointer hover:bg-gray-700">Name</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">Price</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">1h %</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">24h %</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">7d %</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">Market Cap</th>
+                            <th class="px-4 py-3 text-right cursor-pointer hover:bg-gray-700">Volume (24h)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-800">
+                         
+                    </tbody>
+                </table>
+            </div>
+            <div class="tabs">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-view="table">Table</button>
+                    <button class="tab-button" data-view="bubbles">Squares</button>
                 </div>
             </div>
         </div>
@@ -1195,8 +1290,9 @@
 //     }
 // ]; 
     
-    //const API_URL = 'http://localhost:3000/api/crypto';
-    const API_URL = 'https://irc-library.org:8030/api/crypto';
+
+    const API_URL = 'http://localhost:3000/api/crypto';
+    //const API_URL = 'https://irc-library.org:8030/api/crypto';
     const CMC_CONFIG = {
         API_KEY: 'f70899e8-f0df-49d0-8fab-a038220b9f79', // Replace with your API key
         BASE_URL: 'https://pro-api.coinmarketcap.com/v1',
@@ -1267,7 +1363,19 @@
                     return [];
                 }
             }
-        
+            document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active tab button
+                document.querySelectorAll('.tab-button').forEach(btn => 
+                    btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Show active view
+                document.querySelectorAll('.view').forEach(view => 
+                    view.classList.remove('active'));
+                document.getElementById(`${button.dataset.view}View`).classList.add('active');
+            });
+        });
 
     // Initialize visualization with real data
     async function initializeWithRealData(page = 1, timeframe='24h') {
@@ -1558,7 +1666,7 @@
 
         if (timeframe == '1h') {
                change = Math.abs(d.change1h);
-               if (width < 768) {
+        if (width < 768) {
                if (change > 200) size = 120 * reductionFactor;
                else if (change > 100) size = 100 * reductionFactor;
                else if (change > 30) size = 80 * reductionFactor;
@@ -1572,17 +1680,19 @@
                else size = 30 * reductionFactor;
            } else {
                if (change > 200) size = maxSize;
-               else if (change > 100) size = maxSize * 0.8;
-               else if (change > 30) size = maxSize * 0.7;
-               else if (change > 20) size = maxSize * 0.65;
-               else if (change > 10) size = maxSize * 0.6;
-               else if (change > 5) size = maxSize * 0.5;
-               else if (change > 3) size = maxSize * 0.45;
-               else if (change > 2.5) size = maxSize * 0.4;
-               else if (change > 2) size = maxSize * 0.35;
-               else if (change > 1.5) size = maxSize * 0.3;
-               else if (change > 1) size = maxSize * 0.25;
-               else if (change > 0.5) size = maxSize * 0.2;
+               else if (change > 100) size = maxSize * 0.99;
+            //    else if (change > 30) size = maxSize * 0.7;
+            //    else if (change > 20) size = maxSize * 0.65;
+            //    else if (change > 10) size = maxSize * 0.6;
+               else if (change > 5) size = maxSize * 0.9;
+               //else if (change > 3) size = maxSize * 0.7;
+               //else if (change > 2.5) size = maxSize * 0.65;
+               else if (change > 2) size = maxSize * 0.5;
+               //else if (change > 1.5) size = maxSize * 0.55;
+               else if (change > 1) size = maxSize * 0.4;
+               else if (change > 0.5) size = maxSize * 0.35;
+               //else if (change > 0.3) size = maxSize * 0.35;
+               else if (change > 0.2) size = maxSize * 0.3;
                else size = maxSize* 0.1;
            }
         }
@@ -1639,10 +1749,10 @@
                     else if (change > 30) size = maxSize * 0.6;
                     else if (change > 20) size = maxSize * 0.5;
                     else if (change > 10) size = maxSize * 0.4;
-                    else if (change > 5) size = maxSize * 0.3;
-                    //else if (change > 3) size = maxSize * 0.3;
-                    //else if (change > 2) size = maxSize * 0.25;
-                    //else if (change > 1) size = maxSize * 0.2;
+                    else if (change > 5) size = maxSize * 0.35;
+                    else if (change > 3) size = maxSize * 0.3;
+                    else if (change > 2) size = maxSize * 0.25;
+                    else if (change > 1) size = maxSize * 0.2;
                     else size = maxSize* 0.08;
            }
            }
@@ -1711,7 +1821,8 @@
            }
            }
         if (timeframe == 'mcap') {
-            const marketCapSize = Math.log10(d.marketCapChange24h);
+            //const marketCapSize = Math.log10(d.marketCapChange24h);
+            marketCapSize = Math.abs(d.change7d);
                maxSize = Math.min( width, height) * 0.20 * reductionFactor;
 
                if(window.innerWidth < 768) {
@@ -1968,7 +2079,7 @@
                     }
                     else {
                         if (timeframe == '1h') {
-                            if (Math.abs(change) > 0.5) {
+                            if (Math.abs(change) > 0.2) {
                                 group.append("text")
                                     .attr("class", "square-label")
                                     .attr("dy", d.size * 0.2)
@@ -2712,6 +2823,49 @@ class CryptoPopup {
     }
 }
 
+// function populateTable(data) {
+//     const tbody = document.getElementById('cryptoTableBody');
+    
+//     tbody.innerHTML = data.map(crypto => `
+//         <tr>
+//             <td>${crypto.rank}</td>
+//             <td>
+//                 <div class="flex-center">
+//                     <img src="${crypto.logoUrl}" alt="${crypto.name}" class="coin-logo">
+//                     <span>${crypto.name}</span>
+//                     <span class="symbol">${crypto.symbol}</span>
+//                     <a href="${crypto.links?.binance}" target="_blank" class="exchange-link binance">Binance</a>
+//                     <a href="${crypto.links?.coinbase}" target="_blank" class="exchange-link coinbase">Coinbase</a>
+//                     <div class="relative group">
+//                      <button class="text-xs px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded">
+//                        More
+//                      </button>
+//                      <div class="hidden group-hover:block absolute left-0 mt-1 bg-gray-800 rounded shadow-lg z-50">
+//                        <div class="p-2 space-y-2 min-w-[150px]">
+//                        <a href="${crypto.links.kucoin}" target="_blank" class="block text-xs px-2 py-1 hover:bg-gray-700 rounded">KuCoin</a>
+//                        <a href="${crypto.links.gate}" target="_blank" class="block text-xs px-2 py-1 hover:bg-gray-700 rounded">Gate.io</a>
+//                        <a href="${crypto.links.mexc}" target="_blank" class="block text-xs px-2 py-1 hover:bg-gray-700 rounded">MEXC</a>
+//                        <a href="${crypto.links.huobi}" target="_blank" class="block text-xs px-2 py-1 hover:bg-gray-700 rounded">Huobi</a>
+//                        </div>
+//                       </div>
+//                     </div>
+//                 </div>
+//             </td>
+//             <td class="text-right">$${crypto.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+//             <td class="text-right ${crypto.change1h >= 0 ? 'positive' : 'negative'}">
+//                 ${crypto.change1h > 0 ? '+' : ''}${crypto.change1h?.toFixed(2)}%
+//             </td>
+//             <td class="text-right ${crypto.change24h >= 0 ? 'positive' : 'negative'}">
+//                 ${crypto.change24h > 0 ? '+' : ''}${crypto.change24h?.toFixed(2)}%
+//             </td>
+//             <td class="text-right ${crypto.change7d >= 0 ? 'positive' : 'negative'}">
+//                 ${crypto.change7d > 0 ? '+' : ''}${crypto.change7d?.toFixed(2)}%
+//             </td>
+//             <td class="text-right">$${(crypto.marketCap / 1e9).toFixed(2)}B</td>
+//             <td class="text-right">$${(crypto.volume / 1e9).toFixed(2)}B</td>
+//         </tr>
+//     `).join('');
+// }
 function populateTable(data) {
             const tbody = document.querySelector('#cryptoTable tbody');
             tbody.innerHTML = data.map(crypto => `
